@@ -29,8 +29,6 @@
             return null;
         }
 
-        // Removed eraseCookie as it's not strictly necessary for this use case.
-
         // Expanded Questions - Ensure there are at least 10 questions per subject to pick from
         const questions = {
             math: [
@@ -119,7 +117,6 @@
         // New initialization function for the UI
         function initializeUI() {
             loadQuizHistory(); // Load history immediately on UI init
-            // No authentication logic is needed here anymore
         }
 
         // Shuffle function (Fisher-Yates)
@@ -132,8 +129,6 @@
         }
 
         function startQuiz() {
-            // No authentication check needed as we are using cookies for history
-            
             // Select 10 random questions from the entire pool of each subject
             const selectedMathQuestions = shuffleArray([...questions.math]).slice(0, 10);
             const selectedPhysicsQuestions = shuffleArray([...questions.physics]).slice(0, 10);
@@ -153,7 +148,7 @@
             const quizMainContent = document.getElementById('quiz-main-content');
             const quizQuestionsScreen = document.getElementById('quiz-questions-screen');
             const quizResultsScreen = document.getElementById('quiz-results-screen');
-            const quizHistoryScreen = document.getElementById('quiz-history-screen'); // Still need to control its visibility
+            const quizHistoryScreen = document.getElementById('quiz-history-screen');
 
             if (loginSection) loginSection.classList.add('hidden');
             if (quizMainContent) quizMainContent.classList.remove('hidden');
@@ -167,7 +162,7 @@
 
         function displayQuestion() {
             const quizQuestionsContainer = document.getElementById('quiz-questions');
-            if (!quizQuestionsContainer) return; // Safeguard
+            if (!quizQuestionsContainer) return;
 
             quizQuestionsContainer.innerHTML = ''; // Clear previous question
 
@@ -186,7 +181,7 @@
             quizQuestionsContainer.appendChild(questionElement);
 
             const optionsContainer = document.getElementById('options-container');
-            if (!optionsContainer) return; // Safeguard
+            if (!optionsContainer) return;
 
             shuffleArray(questionData.options).forEach(option => { // Shuffle options too
                 const optionElement = document.createElement('div');
@@ -207,7 +202,7 @@
 
         function selectOption(selectedOptionElement, selectedOption) {
             const parentNode = selectedOptionElement.parentNode;
-            if (!parentNode) return; // Safeguard
+            if (!parentNode) return;
 
             // Remove selection from other options
             Array.from(parentNode.children).forEach(option => {
@@ -239,7 +234,7 @@
             const nextBtn = document.getElementById('quiz-next-btn');
             const submitBtn = document.getElementById('quiz-submit-btn');
 
-            if (prevBtn) { // Check if element exists before accessing
+            if (prevBtn) {
                 if (currentQuestionIndex === 0) {
                     prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
                     prevBtn.disabled = true;
@@ -249,7 +244,7 @@
                 }
             }
 
-            if (nextBtn && submitBtn) { // Check if elements exist before accessing
+            if (nextBtn && submitBtn) {
                 if (currentQuestionIndex === currentQuizQuestions.length - 1) {
                     nextBtn.classList.add('hidden');
                     submitBtn.classList.remove('hidden');
@@ -292,7 +287,7 @@
             const quizScoreElement = document.getElementById('quiz-score');
 
             if (quizQuestionsScreen) quizQuestionsScreen.classList.add('hidden');
-            if (quizResultsScreen) quizResultsScreen.classList.remove('hidden');
+            if (quizResultsScreen) quizResultsScreen.classList.remove('hidden'); // Ensure results screen is shown
             if (quizScoreElement) quizScoreElement.innerHTML = `You scored: <span class="font-bold text-blue-600">${score}/${totalQuestions}</span> (${percentage.toFixed(2)}%)`;
 
             // Save results to cookie
@@ -367,7 +362,14 @@
             }
             const ctx = canvas.getContext('2d');
             
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Adjust canvas resolution for high-DPI displays
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect(); // Get CSS pixels
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr); // Clear using CSS pixels for scaling
 
             if (quizHistory.length === 0) {
                 const performanceStats = document.getElementById('performance-stats');
@@ -385,9 +387,10 @@
             const maxScore = totalMaxQuestionsForGraph;
             const minScore = 0;
 
-            const margin = 30; // Increased margin for labels
-            const chartWidth = canvas.width - 2 * margin;
-            const chartHeight = canvas.height - 2 * margin;
+            // Use CSS pixel dimensions for drawing calculations since context is scaled
+            const chartWidth = rect.width - 2 * 30; // 30 is margin
+            const chartHeight = rect.height - 2 * 30; // 30 is margin
+            const margin = 30;
 
             // Draw axes
             ctx.beginPath();
@@ -395,10 +398,10 @@
             ctx.lineWidth = 1;
             // Y-axis
             ctx.moveTo(margin, margin);
-            ctx.lineTo(margin, canvas.height - margin);
+            ctx.lineTo(margin, rect.height - margin);
             // X-axis
-            ctx.moveTo(margin, canvas.height - margin);
-            ctx.lineTo(canvas.width - margin, canvas.height - margin);
+            ctx.moveTo(margin, rect.height - margin);
+            ctx.lineTo(rect.width - margin, rect.height - margin);
             ctx.stroke();
 
             // Draw Y-axis labels (scores)
@@ -417,13 +420,12 @@
                 const stepX = chartWidth / (scores.length > 1 ? scores.length - 1 : 1);
                 for (let i = 0; i < scores.length; i++) {
                     const x = margin + i * stepX;
-                    ctx.fillText(`Q${i + 1}`, x - 5, canvas.height - margin + 20);
+                    ctx.fillText(`Q${i + 1}`, x - 5, rect.height - margin + 20);
                 }
             } else if (scores.length === 1) {
                 // Handle single point case
-                ctx.fillText(`Q1`, margin, canvas.height - margin + 15);
+                ctx.fillText(`Q1`, margin, rect.height - margin + 15);
             }
-
 
             // Draw data points and lines
             ctx.beginPath();
@@ -451,12 +453,12 @@
             ctx.setLineDash([5, 5]); // Dashed line
             const avgY = margin + chartHeight * (1 - (averageScore - minScore) / (maxScore - minScore));
             ctx.moveTo(margin, avgY);
-            ctx.lineTo(canvas.width - margin, avgY);
+            ctx.lineTo(rect.width - margin, avgY);
             ctx.stroke();
             ctx.setLineDash([]); // Reset line dash
 
             ctx.fillStyle = '#f56565';
-            ctx.fillText('Avg', canvas.width - margin + 5, avgY + 5);
+            ctx.fillText('Avg', rect.width - margin + 5, avgY + 5);
         }
 
         function drawSubjectErrorsChart(subjectErrorCounts) {
@@ -466,15 +468,24 @@
                 return;
             }
             const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Adjust canvas resolution for high-DPI displays
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect(); // Get CSS pixels
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr); // Clear using CSS pixels for scaling
 
             const subjects = Object.keys(subjectErrorCounts);
             const counts = Object.values(subjectErrorCounts);
             const maxCount = Math.max(...counts, 1); // Ensure maxCount is at least 1 to avoid division by zero
 
+            // Use CSS pixel dimensions for drawing calculations since context is scaled
+            const chartWidth = rect.width - 2 * 30; // 30 is margin
+            const chartHeight = rect.height - 2 * 30; // 30 is margin
             const margin = 30;
-            const chartWidth = canvas.width - 2 * margin;
-            const chartHeight = canvas.height - 2 * margin;
             const barWidth = (chartWidth / subjects.length) * 0.6; // Slightly narrower bars
             const barSpacing = chartWidth / subjects.length;
 
@@ -484,10 +495,10 @@
             ctx.lineWidth = 1;
             // Y-axis
             ctx.moveTo(margin, margin);
-            ctx.lineTo(margin, canvas.height - margin);
+            ctx.lineTo(margin, rect.height - margin);
             // X-axis
-            ctx.moveTo(margin, canvas.height - margin);
-            ctx.lineTo(canvas.width - margin, canvas.height - margin);
+            ctx.moveTo(margin, rect.height - margin);
+            ctx.lineTo(rect.width - margin, rect.height - margin);
             ctx.stroke();
 
             // Draw Y-axis labels (counts)
@@ -506,7 +517,7 @@
             for (let i = 0; i < subjects.length; i++) {
                 const x = margin + i * barSpacing + (barSpacing - barWidth) / 2;
                 const barHeight = (counts[i] / maxCount) * chartHeight;
-                const y = canvas.height - margin - barHeight;
+                const y = rect.height - margin - barHeight;
 
                 ctx.fillStyle = colors[i % colors.length]; // Cycle colors
                 ctx.fillRect(x, y, barWidth, barHeight);
@@ -514,7 +525,7 @@
                 // Draw bar labels
                 ctx.fillStyle = '#1a202c';
                 ctx.textAlign = 'center';
-                ctx.fillText(subjects[i], x + barWidth / 2, canvas.height - margin + 20);
+                ctx.fillText(subjects[i], x + barWidth / 2, rect.height - margin + 20);
                 if (counts[i] > 0) { // Only show count if greater than 0
                     ctx.fillText(counts[i], x + barWidth / 2, y - 5); // Value on top of bar
                 }
@@ -566,9 +577,6 @@
             const quizPrevBtn = document.getElementById('quiz-prev-btn');
             const quizSubmitBtn = document.getElementById('quiz-submit-btn');
 
-            // IMPORTANT: Ensure quiz overlay is hidden initially. The 'hidden' class in HTML is primary.
-            // No explicit classList.add('hidden') here as it's already in HTML for reliability.
-
             if (startQuizBtn) {
                 startQuizBtn.addEventListener('click', () => {
                     const quizOverlay = document.getElementById('quiz-overlay');
@@ -583,14 +591,9 @@
 
             if (closeQuizBtn) {
                 closeQuizBtn.addEventListener('click', () => {
-                    console.log("X button clicked! Attempting to close overlay."); // Debugging line to confirm click
                     const quizOverlay = document.getElementById('quiz-overlay');
                     if (quizOverlay) {
-                        console.log("Before adding hidden:", quizOverlay.classList);
                         quizOverlay.classList.add('hidden'); // Close the quiz overlay
-                        console.log("After adding hidden:", quizOverlay.classList);
-                    } else {
-                        console.error("Quiz overlay element not found when closing.");
                     }
                 });
             }
@@ -613,7 +616,7 @@
                     const quizResultsScreen = document.getElementById('quiz-results-screen');
                     if (quizHistoryScreen) quizHistoryScreen.classList.remove('hidden');
                     if (quizResultsScreen) quizResultsScreen.classList.add('hidden');
-                    loadQuizHistory(); // Call loadQuizHistory without userId
+                    loadQuizHistory();
                 });
             }
 
@@ -636,16 +639,24 @@
                     const quizResultsScreen = document.getElementById('quiz-results-screen');
 
                     if (loginSection) loginSection.classList.add('hidden');
-                    if (quizMainContent) quizMainContent.classList.remove('hidden'); // Show main quiz content wrapper
-                    if (quizHistoryScreen) quizHistoryScreen.classList.remove('hidden'); // Show history screen
+                    if (quizMainContent) quizMainContent.classList.remove('hidden');
+                    if (quizHistoryScreen) quizHistoryScreen.classList.remove('hidden');
                     if (quizQuestionsScreen) quizQuestionsScreen.classList.add('hidden');
                     if (quizResultsScreen) quizResultsScreen.classList.add('hidden');
                     
-                    loadQuizHistory(); // Call loadQuizHistory without userId
+                    loadQuizHistory();
                 });
             }
+
+            // Add an event listener for window resize to redraw charts
+            window.addEventListener('resize', () => {
+                // Only redraw if the history screen is currently visible
+                if (!document.getElementById('quiz-history-screen').classList.contains('hidden')) {
+                    loadQuizHistory(); // This will trigger redrawing of charts
+                }
+            });
         });
-        document.addEventListener('DOMContentLoaded', initializeUI); // This will call loadQuizHistory on page load.
+        document.addEventListener('DOMContentLoaded', initializeUI);
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
