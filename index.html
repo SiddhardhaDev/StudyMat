@@ -6,70 +6,30 @@
     <title>Comprehensive Study Material</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Firebase SDKs -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-        // Removed orderBy import as it's not used in query now, but kept other necessary imports.
-        import { getFirestore, collection, query, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-
-        // Firebase configuration (provided by Canvas runtime)
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        // Global variables for Firebase instances
-        let app, db, auth;
-        let currentUser = null;
-        let isAuthReady = false;
-        let authAttempted = false; // Flag to ensure authentication is only tried once
-
-        // This function will be called once the DOM is fully loaded.
-        function initializeFirebaseAndUI() {
-            if (authAttempted) return; // Prevent re-initialization
-
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-
-            onAuthStateChanged(auth, async (user) => {
-                currentUser = user; // Update currentUser here
-                isAuthReady = true; // Auth listener has fired, even if user is null
-
-                const loginStatus = document.getElementById('login-status');
-                const userIdDisplay = document.getElementById('user-id-display');
-
-                if (currentUser) {
-                    if (userIdDisplay) userIdDisplay.textContent = `User ID: ${currentUser.uid}`;
-                    if (loginStatus) loginStatus.textContent = 'Ready to quiz!';
-                    // History is loaded, but no screen is shown here.
-                    loadQuizHistory(currentUser.uid);
-                } else {
-                    // No user, attempt anonymous sign-in or with custom token
-                    if (loginStatus) loginStatus.textContent = 'Authenticating...';
-                    try {
-                        if (initialAuthToken) {
-                            await signInWithCustomToken(auth, initialAuthToken);
-                            console.log("Signed in with custom token.");
-                        } else {
-                            await signInAnonymously(auth);
-                            console.log("Signed in anonymously.");
-                        }
-                        currentUser = auth.currentUser; // Update after successful sign-in
-                        if (userIdDisplay) userIdDisplay.textContent = `User ID: ${currentUser.uid}`;
-                        if (loginStatus) loginStatus.textContent = 'Ready to quiz!';
-                        loadQuizHistory(currentUser.uid); // Load history after successful auth
-                    } catch (error) {
-                        console.error("Firebase authentication error:", error);
-                        if (loginStatus) loginStatus.textContent = 'Authentication failed. Please try again.';
-                    }
-                }
-            });
-            authAttempted = true; // Mark that auth initialization has been attempted
+        // Helper functions for cookie management
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
         }
 
-        // Event listener for DOMContentLoaded to ensure elements are loaded
-        document.addEventListener('DOMContentLoaded', initializeFirebaseAndUI);
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Removed eraseCookie as it's not strictly necessary for this use case.
 
         // Expanded Questions - Ensure there are at least 10 questions per subject to pick from
         const questions = {
@@ -154,7 +114,13 @@
         let currentQuizQuestions = [];
         let currentQuestionIndex = 0;
         let userAnswers = {};
-        let quizHistory = []; // Stores historical scores
+        let quizHistory = []; // Stores historical scores loaded from/saved to cookies
+
+        // New initialization function for the UI
+        function initializeUI() {
+            loadQuizHistory(); // Load history immediately on UI init
+            // No authentication logic is needed here anymore
+        }
 
         // Shuffle function (Fisher-Yates)
         function shuffleArray(array) {
@@ -166,11 +132,8 @@
         }
 
         function startQuiz() {
-            if (!isAuthReady || !currentUser) {
-                showMessageBox("Please sign in first to start the quiz.");
-                return;
-            }
-
+            // No authentication check needed as we are using cookies for history
+            
             // Select 10 random questions from the entire pool of each subject
             const selectedMathQuestions = shuffleArray([...questions.math]).slice(0, 10);
             const selectedPhysicsQuestions = shuffleArray([...questions.physics]).slice(0, 10);
@@ -190,13 +153,13 @@
             const quizMainContent = document.getElementById('quiz-main-content');
             const quizQuestionsScreen = document.getElementById('quiz-questions-screen');
             const quizResultsScreen = document.getElementById('quiz-results-screen');
-            const quizHistoryScreen = document.getElementById('quiz-history-screen');
+            const quizHistoryScreen = document.getElementById('quiz-history-screen'); // Still need to control its visibility
 
             if (loginSection) loginSection.classList.add('hidden');
             if (quizMainContent) quizMainContent.classList.remove('hidden');
             if (quizQuestionsScreen) quizQuestionsScreen.classList.remove('hidden');
             if (quizResultsScreen) quizResultsScreen.classList.add('hidden');
-            if (quizHistoryScreen) quizHistoryScreen.classList.add('hidden');
+            if (quizHistoryScreen) quizHistoryScreen.classList.add('hidden'); // Ensure history is hidden when starting quiz
 
             displayQuestion();
             updateQuizProgress();
@@ -297,7 +260,7 @@
             }
         }
 
-        async function submitQuiz() {
+        function submitQuiz() {
             if (userAnswers[currentQuestionIndex] === undefined) {
                 showMessageBox("Please select an option for the current question before submitting.");
                 return;
@@ -315,7 +278,7 @@
                         userAnswer: userAnswer || "No answer selected",
                         correctAnswer: qData.correct,
                         relatedPoint: qData.point,
-                        subject: qData.subject // Store subject for analysis
+                        subject: qData.subject
                     });
                 }
             });
@@ -332,81 +295,68 @@
             if (quizResultsScreen) quizResultsScreen.classList.remove('hidden');
             if (quizScoreElement) quizScoreElement.innerHTML = `You scored: <span class="font-bold text-blue-600">${score}/${totalQuestions}</span> (${percentage.toFixed(2)}%)`;
 
-            // Store results in Firestore
-            if (currentUser && isAuthReady) {
-                try {
-                    const quizResultsCollection = collection(db, `artifacts/${appId}/users/${currentUser.uid}/quiz_results`);
-                    await addDoc(quizResultsCollection, {
-                        score: score,
-                        totalQuestions: totalQuestions,
-                        percentage: percentage,
-                        timestamp: new Date(),
-                        incorrectQuestions: incorrectQuestionsDetails // Store details of wrong answers
-                    });
-                    showMessageBox("Quiz results saved successfully!", 'success');
-                    loadQuizHistory(currentUser.uid); // Reload history after saving new results
-                } catch (error) {
-                    console.error("Error saving quiz results:", error);
-                    showMessageBox("Error saving quiz results. Please check console.", 'error');
-                }
-            } else {
-                showMessageBox("Not signed in. Quiz results cannot be saved.", 'info');
-            }
+            // Save results to cookie
+            const newResult = {
+                score: score,
+                totalQuestions: totalQuestions,
+                percentage: percentage,
+                timestamp: new Date().toISOString(), // Store as ISO string for consistent parsing
+                incorrectQuestions: incorrectQuestionsDetails
+            };
+            quizHistory.push(newResult);
+            setCookie('quiz_history', JSON.stringify(quizHistory), 365); // Store for 365 days
+
+            showMessageBox("Quiz completed!", 'success');
+            loadQuizHistory(); // Reload history from updated cookie to update charts
         }
 
-        async function loadQuizHistory(userId) {
-            if (!isAuthReady || !db) { // Ensure db is initialized as well
-                console.log("Firestore not ready, cannot load history.");
-                return;
-            }
-
-            try {
-                // Fetch documents without orderBy for in-memory sorting
-                const q = query(collection(db, `artifacts/${appId}/users/${userId}/quiz_results`));
-                const querySnapshot = await getDocs(q);
+        function loadQuizHistory() {
+            const historyCookie = getCookie('quiz_history');
+            if (historyCookie) {
+                try {
+                    quizHistory = JSON.parse(historyCookie);
+                } catch (e) {
+                    console.error("Error parsing quiz history from cookie:", e);
+                    quizHistory = []; // Reset if parsing fails
+                }
+            } else {
                 quizHistory = [];
-                const wrongAnswersHistory = document.getElementById('wrong-answers-history');
-                if (wrongAnswersHistory) wrongAnswersHistory.innerHTML = ''; // Clear previous wrong answers
-
-                const subjectErrorCounts = { "Mathematics": 0, "Physics": 0, "Chemistry": 0 };
-
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    quizHistory.push({ id: doc.id, ...data });
-
-                    // Aggregate wrong answers by subject
-                    if (data.incorrectQuestions && data.incorrectQuestions.length > 0) {
-                        data.incorrectQuestions.forEach(item => {
-                            if (item.subject && subjectErrorCounts[item.subject] !== undefined) {
-                                subjectErrorCounts[item.subject]++;
-                            }
-                        });
-
-                        const historyItem = document.createElement('div');
-                        historyItem.className = 'bg-red-50 p-3 rounded-md mb-3 border border-red-200';
-                        const quizDate = data.timestamp && data.timestamp.toDate ? new Date(data.timestamp.toDate()).toLocaleString() : 'N/A';
-                        historyItem.innerHTML = `<p class="font-semibold text-red-700 mb-2">Quiz on ${quizDate} - Incorrect Answers (${data.incorrectQuestions.length} wrong):</p>`;
-                        data.incorrectQuestions.forEach(item => {
-                            historyItem.innerHTML += `<p class="text-sm ml-2"><strong>Q:</strong> ${item.question}<br><strong>Your Answer:</strong> ${item.userAnswer}<br><strong>Correct:</strong> ${item.correctAnswer}<br><em>Related to: ${item.relatedPoint} (${item.subject})</em></p><br>`;
-                        });
-                        if (wrongAnswersHistory) wrongAnswersHistory.appendChild(historyItem);
-                    }
-                });
-
-                // In-memory sorting by timestamp (descending, most recent first)
-                quizHistory.sort((a, b) => {
-                    const timeA = a.timestamp && a.timestamp.toDate ? a.timestamp.toDate().getTime() : 0;
-                    const timeB = b.timestamp && b.timestamp.toDate ? b.timestamp.toDate().getTime() : 0;
-                    return timeB - timeA; // Sort descending
-                });
-
-                updatePerformanceGraph();
-                drawSubjectErrorsChart(subjectErrorCounts);
-
-            } catch (error) {
-                console.error("Error loading quiz history:", error);
-                showMessageBox("Error loading quiz history. Please check console.", 'error');
             }
+
+            const wrongAnswersHistory = document.getElementById('wrong-answers-history');
+            if (wrongAnswersHistory) wrongAnswersHistory.innerHTML = ''; // Clear previous wrong answers
+
+            const subjectErrorCounts = { "Mathematics": 0, "Physics": 0, "Chemistry": 0 };
+
+            quizHistory.forEach((data) => {
+                // Aggregate wrong answers by subject
+                if (data.incorrectQuestions && data.incorrectQuestions.length > 0) {
+                    data.incorrectQuestions.forEach(item => {
+                        if (item.subject && subjectErrorCounts[item.subject] !== undefined) {
+                            subjectErrorCounts[item.subject]++;
+                        }
+                    });
+
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'bg-red-50 p-3 rounded-md mb-3 border border-red-200';
+                    const quizDate = data.timestamp ? new Date(data.timestamp).toLocaleString() : 'N/A'; // Parse string timestamp
+                    historyItem.innerHTML = `<p class="font-semibold text-red-700 mb-2">Quiz on ${quizDate} - Incorrect Answers (${data.incorrectQuestions.length} wrong):</p>`;
+                    data.incorrectQuestions.forEach(item => {
+                        historyItem.innerHTML += `<p class="text-sm ml-2"><strong>Q:</strong> ${item.question}<br><strong>Your Answer:</strong> ${item.userAnswer}<br><strong>Correct:</strong> ${item.correctAnswer}<br><em>Related to: ${item.relatedPoint} (${item.subject})</em></p><br>`;
+                    });
+                    if (wrongAnswersHistory) wrongAnswersHistory.appendChild(historyItem);
+                }
+            });
+
+            // In-memory sorting by timestamp (descending, most recent first)
+            quizHistory.sort((a, b) => {
+                const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+                const timeB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+                return timeB - timeA; // Sort descending
+            });
+
+            updatePerformanceGraph();
+            drawSubjectErrorsChart(subjectErrorCounts);
         }
 
         function updatePerformanceGraph() {
@@ -650,12 +600,35 @@
             if (quizPrevBtn) quizPrevBtn.addEventListener('click', prevQuestion);
             if (quizSubmitBtn) quizSubmitBtn.addEventListener('click', submitQuiz);
 
+            // Replaced inline onclick attributes with addEventListener for better scoping
+            const takeQuizAgainBtn = document.querySelector('#quiz-results-screen button:first-of-type');
+            if (takeQuizAgainBtn) {
+                takeQuizAgainBtn.addEventListener('click', startQuiz);
+            }
+
+            const viewHistoryBtnResultsScreen = document.querySelector('#quiz-results-screen button:last-of-type');
+            if (viewHistoryBtnResultsScreen) {
+                viewHistoryBtnResultsScreen.addEventListener('click', () => {
+                    const quizHistoryScreen = document.getElementById('quiz-history-screen');
+                    const quizResultsScreen = document.getElementById('quiz-results-screen');
+                    if (quizHistoryScreen) quizHistoryScreen.classList.remove('hidden');
+                    if (quizResultsScreen) quizResultsScreen.classList.add('hidden');
+                    loadQuizHistory(); // Call loadQuizHistory without userId
+                });
+            }
+
+            const backToQuizStartBtn = document.querySelector('#quiz-history-screen button');
+            if (backToQuizStartBtn) {
+                backToQuizStartBtn.addEventListener('click', () => {
+                    const loginSection = document.getElementById('login-section');
+                    const quizMainContent = document.getElementById('quiz-main-content');
+                    if (loginSection) loginSection.classList.remove('hidden');
+                    if (quizMainContent) quizMainContent.classList.add('hidden');
+                });
+            }
+
             if (viewHistoryBtn) {
                 viewHistoryBtn.addEventListener('click', () => {
-                    if (!isAuthReady || !currentUser) {
-                        showMessageBox("Please sign in first to view history.");
-                        return;
-                    }
                     const loginSection = document.getElementById('login-section');
                     const quizMainContent = document.getElementById('quiz-main-content');
                     const quizHistoryScreen = document.getElementById('quiz-history-screen');
@@ -668,10 +641,11 @@
                     if (quizQuestionsScreen) quizQuestionsScreen.classList.add('hidden');
                     if (quizResultsScreen) quizResultsScreen.classList.add('hidden');
                     
-                    loadQuizHistory(currentUser.uid);
+                    loadQuizHistory(); // Call loadQuizHistory without userId
                 });
             }
         });
+        document.addEventListener('DOMContentLoaded', initializeUI); // This will call loadQuizHistory on page load.
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
@@ -798,10 +772,6 @@
             }
             ol {
                 padding-left: 0.5rem; /* Slightly less padding on mobile for main list */
-            }
-            li .list-number {
-                min-width: 1.2rem;
-                margin-right: 0.5rem;
             }
             li ul {
                 padding-left: 1rem;
@@ -1385,11 +1355,10 @@
                 &times;
             </button>
 
-            <!-- Login/Auth Section - Initially shown to manage auth and start/history -->
+            <!-- Initial Quiz Entry Section (no login/auth needed) -->
             <div id="login-section" class="text-center p-8">
                 <h3 class="text-2xl font-bold text-gray-800 mb-4">Welcome to the Quiz!</h3>
-                <p id="user-id-display" class="text-gray-600 mb-4">User ID: Loading...</p>
-                <p id="login-status" class="text-gray-700 mb-6">Please wait while we set up your session...</p>
+                <p class="text-gray-700 mb-6">Test your knowledge with our comprehensive quiz.</p>
                 <div class="mt-8">
                     <button id="quiz-start-button" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 transform hover:scale-105 mr-4">
                         Start New Quiz
@@ -1424,10 +1393,10 @@
                 <div id="quiz-results-screen" class="hidden text-center">
                     <h3 class="text-3xl font-bold text-gray-800 mb-4">Quiz Results</h3>
                     <p id="quiz-score" class="text-xl text-gray-700 mb-6"></p>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mr-4" onclick="startQuiz()">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mr-4">
                         Take Quiz Again
                     </button>
-                    <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg" onclick="document.getElementById('quiz-history-screen').classList.remove('hidden'); document.getElementById('quiz-results-screen').classList.add('hidden'); loadQuizHistory(currentUser.uid);">
+                    <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg">
                         View History
                     </button>
                 </div>
@@ -1448,7 +1417,7 @@
                     <div id="wrong-answers-history" class="space-y-4">
                         <!-- Wrong answers will be loaded here -->
                     </div>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-6" onclick="document.getElementById('login-section').classList.remove('hidden'); document.getElementById('quiz-main-content').classList.add('hidden');">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-6">
                         Back to Quiz Start
                     </button>
                 </div>
