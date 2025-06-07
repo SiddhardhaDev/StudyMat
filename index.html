@@ -51,34 +51,49 @@
             border-radius: 1px;
         }
         
-        /* --- List Styling Fixes for Gaps and Line Breaks --- */
+        /* --- List Styling --- */
         ol {
-            list-style-type: decimal; /* Use default decimal numbering */
-            padding-left: 1.5rem; /* Default indentation for numbers */
+            list-style-type: none; /* Remove default decimal numbering to use custom */
+            padding-left: 0; /* Remove default padding for custom alignment */
             margin-left: 0; /* Ensure no extra margin */
         }
         li {
-            margin-bottom: 1.2rem; /* Consistent spacing between list items, reduced slightly */
+            margin-bottom: 1.2rem; /* Consistent spacing between list items */
             line-height: 1.6;
-            /* Removed padding-bottom and border-bottom to eliminate gaps and forced breaks */
+            display: flex; /* Enable flexbox for number-text alignment */
+            align-items: flex-start; /* Align number and text at the top */
         }
         
+        /* Custom number styling */
+        li .list-number {
+            font-weight: 600;
+            color: #4a5568;
+            margin-right: 0.75rem;
+            min-width: 1.5rem; /* Ensure number takes consistent space */
+            text-align: right;
+            flex-shrink: 0; /* Prevent number from shrinking */
+        }
+        li > div {
+            flex-grow: 1; /* Allow text content to take remaining space */
+        }
+
         /* Sub-points styling (i, ii, iii, etc.) */
-        li ul {
-            list-style-type: disc; /* Use bullets for sub-points */
+        li ul { /* This targets unordered lists nested directly within a list item */
+            list-style-type: lower-roman; /* For i, ii, iii */
             padding-left: 1.5rem; /* Indent sub-points */
-            margin-top: 0.75rem; /* Slightly more space for clarity */
-            margin-bottom: 0.5rem;
-            border-left: 2px solid #e0e7eb; /* Very light border for nested sections */
-            padding-top: 0.5rem; /* Add padding to top of nested list */
-            padding-right: 0.5rem;
+            margin-top: 0.5rem; /* Space above sub-list */
+            margin-bottom: 0.5rem; /* Space below sub-list */
+            border-left: 2px solid #e0e7eb; /* Visual separation for nested content */
+            padding-top: 0.5rem; /* Padding inside the border */
+            padding-bottom: 0.5rem; /* Padding inside the border */
         }
         li ul li {
-            font-size: 0.95em; /* Slightly smaller for sub-points */
-            margin-bottom: 0.4rem; /* Adjusted space between sub-points */
+            font-size: 0.95em; /* Slightly smaller font for sub-points */
+            margin-bottom: 0.4rem; /* Space between sub-points */
             line-height: 1.5;
             border-bottom: none; /* Ensure no borders on sub-points */
             padding-bottom: 0;
+            display: list-item; /* Re-enable default list-item behavior for lower-roman */
         }
 
         /* Specific styling for mathematical and chemical symbols */
@@ -115,7 +130,11 @@
                 margin-bottom: 0.8rem; /* Adjusted for smaller screens */
             }
             ol {
-                padding-left: 1rem;
+                padding-left: 0.5rem; /* Slightly less padding on mobile for main list */
+            }
+            li .list-number {
+                min-width: 1.2rem;
+                margin-right: 0.5rem;
             }
             li ul {
                 padding-left: 1rem;
@@ -131,98 +150,188 @@
             <h2 class="text-2xl sm:text-4xl">Mathematics</h2>
             <ol>
                 <li>
-                    <b>Division Algorithm:</b> Given positive integers 'a' and 'b', there exists a unique pair of whole numbers 'q' and 'r' satisfying a = bq + r ; 0 &le; r which is less than b.
+                    <span class="list-number">1.</span>
+                    <div>
+                        <b>Division Algorithm:</b> Given positive integers 'a' and 'b', there exists a unique pair of whole numbers 'q' and 'r' satisfying a = bq + r ; 0 &le; r which is less than b.
+                    </div>
                 </li>
                 <li>
-                    <b>The Fundamental Theorem of Arithmetic:</b> Every composite number can be expressed (factorized) as a product of its primes, and this factorization is unique, apart from the order in which the prime factors occurs.
+                    <span class="list-number">2.</span>
+                    <div>
+                        <b>The Fundamental Theorem of Arithmetic:</b> Every composite number can be expressed (factorized) as a product of its primes, and this factorization is unique, apart from the order in which the prime factors occurs.
+                    </div>
                 </li>
                 <li>
-                    If 'p' is a prime and 'p' divides a<sup>2</sup>, (where 'a' is a positive integer), then p divides a.
+                    <span class="list-number">3.</span>
+                    <div>
+                        If 'p' is a prime and 'p' divides a<sup>2</sup>, (where 'a' is a positive integer), then p divides a.
+                    </div>
                 </li>
                 <li>
-                    Let x be a rational number whose decimal expansion terminates. Then x can be expressed in the form of P/q, where p and q are coprime and the prime factorization of q is of the form 2<sup>n</sup>&nbsp;5<sup>m</sup>, where n and m are non-negative integers.
+                    <span class="list-number">4.</span>
+                    <div>
+                        Let x be a rational number whose decimal expansion terminates. Then x can be expressed in the form of P/q, where p and q are coprime and the prime factorization of q is of the form 2<sup>n</sup>&nbsp;5<sup>m</sup>, where n and m are non-negative integers.
+                    </div>
                 </li>
                 <li>
-                    Let x = P/q be a rational number, such that the prime factorization of q is of the form 2<sup>n</sup>&nbsp;5<sup>m</sup>, where n and m are non-negative integers. Then x has a decimal expansion which terminates.
+                    <span class="list-number">5.</span>
+                    <div>
+                        Let x = P/q be a rational number, such that the prime factorization of q is of the form 2<sup>n</sup>&nbsp;5<sup>m</sup>, where n and m are non-negative integers. Then x has a decimal expansion which terminates.
+                    </div>
                 </li>
                 <li>
-                    <b>Irrational number:</b> Let 'n' be any positive number which is not a perfect square then &radic;n is called an Irrational number.
+                    <span class="list-number">6.</span>
+                    <div>
+                        <b>Irrational number:</b> Let 'n' be any positive number which is not a perfect square then &radic;n is called an Irrational number.
+                    </div>
                 </li>
                 <li>
-                    An irrational number is neither terminating nor recurring decimal.
+                    <span class="list-number">7.</span>
+                    <div>
+                        An irrational number is neither terminating nor recurring decimal.
+                    </div>
                 </li>
                 <li>
-                    &pi; is an irrational number.
+                    <span class="list-number">8.</span>
+                    <div>
+                        &pi; is an irrational number.
+                    </div>
                 </li>
                 <li>
-                    Let x = P/q be a rational number, such that the prime factorization of q is not of the form 2<sup>n</sup>&nbsp;5<sup>m</sup>, where n and m are non-negative integers. Then x has a decimal expansion which is non-terminating and repeating (recurring).
+                    <span class="list-number">9.</span>
+                    <div>
+                        Let x = P/q be a rational number, such that the prime factorization of q is not of the form 2<sup>n</sup>&nbsp;5<sup>m</sup>, where n and m are non-negative integers. Then x has a decimal expansion which is non-terminating and repeating (recurring).
+                    </div>
                 </li>
                 <li>
-                    We define log base a of x = n, if a<sup>n</sup> = x, where a and x are positive numbers and a is &ne; 1, n is an element of Real numbers.
+                    <span class="list-number">10.</span>
+                    <div>
+                        We define log base a of x = n, if a<sup>n</sup> = x, where a and x are positive numbers and a is &ne; 1, n is an element of Real numbers.
+                    </div>
                 </li>
                 <li>
-                    <b>Laws of logarithms:</b> If a, x and y are positive real numbers and a is &ne; 1, then log xy base a = log x base a + log y base a.
+                    <span class="list-number">11.</span>
+                    <div>
+                        <b>Laws of logarithms:</b> If a, x and y are positive real numbers and a is &ne; 1, then log xy base a = log x base a + log y base a.
+                    </div>
                 </li>
                 <li>
-                    log (x/y) base a = log x base a - log y base a.
+                    <span class="list-number">12.</span>
+                    <div>
+                        log (x/y) base a = log x base a - log y base a.
+                    </div>
                 </li>
                 <li>
-                    log (x<sup>m</sup>) base a = m log x base a.
+                    <span class="list-number">13.</span>
+                    <div>
+                        log (x<sup>m</sup>) base a = m log x base a.
+                    </div>
                 </li>
                 <li>
-                    a<sup>(log N base a)</sup> = N.
+                    <span class="list-number">14.</span>
+                    <div>
+                        a<sup>(log N base a)</sup> = N.
+                    </div>
                 </li>
                 <li>
-                    log 1 base a = 0.
+                    <span class="list-number">15.</span>
+                    <div>
+                        log 1 base a = 0.
+                    </div>
                 </li>
                 <li>
-                    log a base a = 1.
+                    <span class="list-number">16.</span>
+                    <div>
+                        log a base a = 1.
+                    </div>
                 </li>
                 <li>
-                    (log (a<sup>m</sup>) base b) / (log (a<sup>n</sup>) base b) = (m/n) log a base b.
+                    <span class="list-number">17.</span>
+                    <div>
+                        (log (a<sup>m</sup>) base b) / (log (a<sup>n</sup>) base b) = (m/n) log a base b.
+                    </div>
                 </li>
                 <li>
-                    log x base y = (log x) / (log y) (or) 1 / (log y base x).
+                    <span class="list-number">18.</span>
+                    <div>
+                        log x base y = (log x) / (log y) (or) 1 / (log y base x).
+                    </div>
                 </li>
                 <li>
-                    <b>The arithmetic mean of an ungrouped data:</b> Mean (x&#773;) = (Sum of all observations) / (No. of observations) = (&Sigma; x<sub>i</sub>) / n.
+                    <span class="list-number">19.</span>
+                    <div>
+                        <b>The arithmetic mean of an ungrouped data:</b> Mean (x&#773;) = (Sum of all observations) / (No. of observations) = (&Sigma; x<sub>i</sub>) / n.
+                    </div>
                 </li>
                 <li>
-                    <b>Mode of ungrouped data:</b> If an observation occur more frequently in the data or an observation with the highest frequency is called the mode of the data. It is denoted by Z. Data having unique mode is called uni-modal data and the data having two modes is called bi-modal data.
+                    <span class="list-number">20.</span>
+                    <div>
+                        <b>Mode of ungrouped data:</b> If an observation occur more frequently in the data or an observation with the highest frequency is called the mode of the data. It is denoted by Z. Data having unique mode is called uni-modal data and the data having two modes is called bi-modal data.
+                    </div>
                 </li>
                 <li>
-                    <b>Median for ungrouped data:</b> The given data has to arrange in order of increasing or decreasing magnitude.
-                    <ul>
-                        <li>i) If the number of observations are 'n', and 'n' is odd then the median will be the ((n+1)/2)th observation of the data.</li>
-                        <li>ii) If the number of observations are 'n', and 'n' is even then the median will be the average of (n/2)th and ((n/2)+1)th observations of the data.</li>
-                    </ul>
+                    <span class="list-number">21.</span>
+                    <div>
+                        <b>Median for ungrouped data:</b> The given data has to arrange in order of increasing or decreasing magnitude.
+                        <ul>
+                            <li>i) If the number of observations are 'n', and 'n' is odd then the median will be the ((n+1)/2)th observation of the data.</li>
+                            <li>ii) If the number of observations are 'n', and 'n' is even then the median will be the average of (n/2)th and ((n/2)+1)th observations of the data.</li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    <b>The mean for grouped data is calculated by:</b> The direct method: x&#773; = (&Sigma; f<sub>i</sub> x<sub>i</sub>) / (&Sigma; f<sub>i</sub>).
+                    <span class="list-number">22.</span>
+                    <div>
+                        <b>The mean for grouped data is calculated by:</b> The direct method: x&#773; = (&Sigma; f<sub>i</sub> x<sub>i</sub>) / (&Sigma; f<sub>i</sub>).
+                    </div>
                 </li>
                 <li>
-                    The assumed mean method: x&#773; = a + (&Sigma; f<sub>i</sub> d<sub>i</sub>) / (&Sigma; f<sub>i</sub>).
+                    <span class="list-number">23.</span>
+                    <div>
+                        The assumed mean method: x&#773; = a + (&Sigma; f<sub>i</sub> d<sub>i</sub>) / (&Sigma; f<sub>i</sub>).
+                    </div>
                 </li>
                 <li>
-                    The step deviation method: x&#773; = a + (( &Sigma; f<sub>i</sub> u<sub>i</sub>) / (&Sigma; f<sub>i</sub>)) * h.
+                    <span class="list-number">24.</span>
+                    <div>
+                        The step deviation method: x&#773; = a + (( &Sigma; f<sub>i</sub> u<sub>i</sub>) / (&Sigma; f<sub>i</sub>)) * h.
+                    </div>
                 </li>
                 <li>
-                    <b>The mode for grouped data</b> can be found by using the formula: Mode = l + ((f1 - f0) / (2f1 - f0 - f2)) * h, where symbols have their usual meaning.
+                    <span class="list-number">25.</span>
+                    <div>
+                        <b>The mode for grouped data</b> can be found by using the formula: Mode = l + ((f1 - f0) / (2f1 - f0 - f2)) * h, where symbols have their usual meaning.
+                    </div>
                 </li>
                 <li>
-                    <b>The median for grouped data</b> is formed by using the formula: Median = l + (((n/2) - cf) / f) * h, where symbols have their usual meanings. Note: In order to find median, class intervals should be continuous.
+                    <span class="list-number">26.</span>
+                    <div>
+                        <b>The median for grouped data</b> is formed by using the formula: Median = l + (((n/2) - cf) / f) * h, where symbols have their usual meanings. Note: In order to find median, class intervals should be continuous.
+                    </div>
                 </li>
                 <li>
-                    While drawing less than ogives, upper boundaries are taken on X-axis and cumulative frequencies are taken on Y-axis.
+                    <span class="list-number">27.</span>
+                    <div>
+                        While drawing less than ogives, upper boundaries are taken on X-axis and cumulative frequencies are taken on Y-axis.
+                    </div>
                 </li>
                 <li>
-                    While drawing greater than ogives, lower boundaries are taken on X-axis and cumulative frequencies are taken on Y-axis.
+                    <span class="list-number">28.</span>
+                    <div>
+                        While drawing greater than ogives, lower boundaries are taken on X-axis and cumulative frequencies are taken on Y-axis.
+                    </div>
                 </li>
                 <li>
-                    The median of grouped data can be obtained graphically as the x-coordinate of the point of intersection of the two ogives for this data.
+                    <span class="list-number">29.</span>
+                    <div>
+                        The median of grouped data can be obtained graphically as the x-coordinate of the point of intersection of the two ogives for this data.
+                    </div>
                 </li>
                 <li>
-                    <b>Empirical relation among Mean, Median and Mode is:</b> Mode = 3 Median - 2 Mean.
+                    <span class="list-number">30.</span>
+                    <div>
+                        <b>Empirical relation among Mean, Median and Mode is:</b> Mode = 3 Median - 2 Mean.
+                    </div>
                 </li>
             </ol>
         </section>
@@ -231,55 +340,136 @@
             <h2 class="text-2xl sm:text-4xl">Physics</h2>
             <ol>
                 <li>
-                    <ul>
-                        <li>i) A lens may have two spherical surfaces bulging outwards. Such lens is called Double convex lens (or) bi-convex lens.</li>
-                        <li>ii) A double concave lens (or) biconcave lens is bounded by two spherical surfaces curved inward.</li>
-                    </ul>
+                    <span class="list-number">1.</span>
+                    <div>
+                        **Image Formation by Reflection:**
+                        <ul>
+                            <li>i) The image formed by actual intersection of reflected rays is called real image. This can be caught on screen.</li>
+                            <li>ii) The image formed by extended rays of reflection is called virtual image. It cannot be caught on screen.</li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    The distance between the focal point and pole is called focal length of lens denoted by 'f'.
+                    <span class="list-number">2.</span>
+                    <div>
+                        **Sign Conventions for Curved Mirrors:** All distances should be measured from pole.
+                        <ul>
+                            <li>i) The distance measured in the direction of incident ray to be taken as positive and those measured in the direction opposite to incident ray to be taken as negative.</li>
+                            <li>ii) Height of object (h<sub>o</sub>) and height of Image (h<sub>i</sub>) are positive if measured upwards from the principal axis and negative if measured downward.</li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    <ul>
-                        <li>i) Any ray passing through the principal axis is undeviated.</li>
-                        <li>ii) Any ray passing through at the optic centre is also undeviated.</li>
-                        <li>iii) The rays passing parallel to the principal axis converge at focus or seems to diverge from the focus.</li>
-                        <li>iv) The ray passing through focus will take a path parallel to principal axis after refraction.</li>
-                        <li>v) When parallel rays fall on a lens making certain angle with principle axis, the rays converge at a point or appear to diverge from a point lying on a focal plane.</li>
-                    </ul>
+                    <span class="list-number">3.</span>
+                    <div>
+                        For curved mirrors the radius of curvature will be twice the focal length, R = 2f.
+                    </div>
                 </li>
                 <li>
-                    <ul>
-                        <li>i) The formula used when a light ray enters a medium with refractive index n<sub>1</sub> from a medium with refractive index n<sub>2</sub> at curved interface with a radius of curvature R is (n<sub>2</sub>/v) - (n<sub>1</sub>/u) = (n<sub>2</sub> - n<sub>1</sub>)/R.</li>
-                        <li>ii) Lens formula is (1/f) = (1/v) - (1/u). Where, f is the focal length of lens, u is the object distance and v is the image distance.</li>
-                        <li>iii) Lens maker's formula is (1/f) = (n-1) * ((1/R<sub>1</sub>) - (1/R<sub>2</sub>)). Where, R<sub>1</sub> and R<sub>2</sub> are radii of curvature of first and second curved surfaces, n is the refractive index and f is the focal length.</li>
-                        <li>iv) The Relation between speed of wave (V), wave length (&lambda;) and frequency (&nu;) is V = &lambda; * &nu;.</li>
-                    </ul>
+                    <span class="list-number">4.</span>
+                    <div>
+                        **Concave mirror:** A spherical mirror, whose reflecting surface is curved inwards, that is, faces towards the centre of the sphere, is called a concave mirror. (A concave mirror can form a real or virtual image.)
+                    </div>
                 </li>
                 <li>
-                    The convex lens behaves as a converging lens if it is kept in a medium with refractive index less than the refractive index of the lens and it behaves like a diverging lens when kept in a medium with refractive index greater than that of the lens.
+                    <span class="list-number">5.</span>
+                    <div>
+                        **Convex mirror:** A spherical mirror, whose reflecting surface is curved outwards, is called a convex mirror. (A convex mirror always forms a virtual image for a real object.)
+                    </div>
                 </li>
                 <li>
-                    The frequency of the light remains same while its wave length changes.
+                    <span class="list-number">6.</span>
+                    <div>
+                        **Focal point:** The rays coming from the sun parallel to the principal axis of concave mirror after reflection converge at a point. This point is called Focus or focal point (F) of the concave mirror.
+                    </div>
                 </li>
                 <li>
-                    <ul>
-                        <li>i) The image formed by actual intersection of reflected rays is called real image. This can be caught on screen.</li>
-                        <li>ii) The image formed by extended rays of reflection is called virtual image. It cannot be caught on screen.</li>
-                    </ul>
+                    <span class="list-number">7.</span>
+                    <div>
+                        **Mirror Formulas:**
+                        <ul>
+                            <li>i) Mirror formula: (1/f) = (1/v) + (1/u).</li>
+                            <li>ii) Magnification: m = (size of the image) / (size of the object) = (h<sub>i</sub>) / (h<sub>o</sub>) or m = (image distance) / (object distance) = (-v) / (u).</li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    All distances should be measured from pole.
-                    <ul>
-                        <li>i) The distance measured in the direction of incident ray to be taken as positive and those measured in the direction opposite to incident ray to be taken as negative.</li>
-                        <li>ii) Height of object (h<sub>o</sub>) and height of Image (h<sub>i</sub>) are positive if measured upwards from the principal axis and negative if measured downward.</li>
-                    </ul>
+                    <span class="list-number">8.</span>
+                    <div>
+                        **Behavior of Light Rays on Mirrors:**
+                        <ul>
+                            <li>i) Any ray which passes parallel to the principal axis, after reflection passes through the focal point.</li>
+                            <li>ii) The ray going through the focal point and falling on the mirror after reflection become parallel to principle axis.</li>
+                            <li>iii) Any ray which passes through centre of curvature after reflection it retraces its path.</li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    For curved mirrors the radius of curvature will be twice the focal length, R = 2f.
+                    <span class="list-number">9.</span>
+                    <div>
+                        **Uses of spherical mirrors:**
+                        <ul>
+                            <li>i) Convex mirrors are used as rear view mirrors in automobiles.</li>
+                            <li>ii) Convex mirrors are used in shopping malls and traffic junctions to observe traffic.</li>
+                            <li>iii) Rear view mirror of vehicles is application of convex mirror where the field of view is large and also produces the erect and diminished image.</li>
+                            <li>iv) Concave mirrors are used in torch lights and vehicle head lights.</li>
+                            <li>v) Dentists are used to see larger images of the teeth of patients.</li>
+                            <li>vi) Solar cooker is the application of concave mirror.</li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    <b>Concave mirror:</b> A spherical mirror, whose reflecting surface is curved inwards, that is, faces towards the centre of the sphere, is called a concave mirror.
+                    <span class="list-number">10.</span>
+                    <div>
+                        **Lens Types:**
+                        <ul>
+                            <li>i) A lens may have two spherical surfaces bulging outwards. Such lens is called Double convex lens (or) bi-convex lens.</li>
+                            <li>ii) A double concave lens (or) biconcave lens is bounded by two spherical surfaces curved inward.</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <span class="list-number">11.</span>
+                    <div>
+                        The distance between the focal point and pole is called focal length of lens denoted by 'f'.
+                    </div>
+                </li>
+                <li>
+                    <span class="list-number">12.</span>
+                    <div>
+                        **Behavior of Light Rays on Lenses:**
+                        <ul>
+                            <li>i) Any ray passing through the principal axis is undeviated.</li>
+                            <li>ii) Any ray passing through at the optic centre is also undeviated.</li>
+                            <li>iii) The rays passing parallel to the principal axis converge at focus or seems to diverge from the focus.</li>
+                            <li>iv) The ray passing through focus will take a path parallel to principal axis after refraction.</li>
+                            <li>v) When parallel rays fall on a lens making certain angle with principle axis, the rays converge at a point or appear to diverge from a point lying on a focal plane.</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <span class="list-number">13.</span>
+                    <div>
+                        **Formulas for Lenses & Waves:**
+                        <ul>
+                            <li>i) The formula used when a light ray enters a medium with refractive index n<sub>2</sub> from a medium with refractive index n<sub>1</sub> at curved interface with a radius of curvature R is (n<sub>2</sub>/v) - (n<sub>1</sub>/u) = (n<sub>2</sub> - n<sub>1</sub>)/R.</li>
+                            <li>ii) Lens formula is (1/f) = (1/v) - (1/u). Where, f is the focal length of lens, u is the object distance and v is the image distance.</li>
+                            <li>iii) Lens maker's formula is (1/f) = (n-1) * ((1/R<sub>1</sub>) - (1/R<sub>2</sub>)). Where, R<sub>1</sub> and R<sub>2</sub> are radii of curvature of first and second curved surfaces, n is the refractive index and f is the focal length.</li>
+                            <li>iv) The Relation between speed of wave (V), wave length (&lambda;) and frequency (&nu;) is V = &nu;&lambda;.</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <span class="list-number">14.</span>
+                    <div>
+                        The convex lens behaves as a converging lens if it is kept in a medium with refractive index less than the refractive index of the lens and it behaves like a diverging lens when kept in a medium with refractive index greater than that of the lens.
+                    </div>
+                </li>
+                <li>
+                    <span class="list-number">15.</span>
+                    <div>
+                        The frequency of the light remains same while its wave length changes.
+                    </div>
                 </li>
             </ol>
         </section>
@@ -288,70 +478,115 @@
             <h2 class="text-2xl sm:text-4xl">Chemistry</h2>
             <ol>
                 <li>
-                    A chemical equation is the symbolic representation of a Chemical Change or Chemical Reaction.
+                    <span class="list-number">1.</span>
+                    <div>
+                        A chemical equation is the symbolic representation of a Chemical Change or Chemical Reaction.
+                    </div>
                 </li>
                 <li>
-                    A balanced chemical equation explains about Reactants, Products and their Physical States during the reaction.
+                    <span class="list-number">2.</span>
+                    <div>
+                        A balanced chemical equation explains about Reactants, Products and their Physical States during the reaction.
+                    </div>
                 </li>
                 <li>
-                    The chemical equation should always be balanced according to the Law of Conservation of Mass.
+                    <span class="list-number">3.</span>
+                    <div>
+                        The chemical equation should always be balanced according to the Law of Conservation of Mass.
+                    </div>
                 </li>
                 <li>
-                    The chemical reaction in which heat is absorbed are called Endothermic Reactions and in which heat is evolved are Exothermic Reactions.
+                    <span class="list-number">4.</span>
+                    <div>
+                        The chemical reaction in which heat is absorbed are called Endothermic Reactions and in which heat is evolved are Exothermic Reactions.
+                    </div>
                 </li>
                 <li>
-                    "Q" is heat energy which is shown with (+) plus sign on product side for exothermic reaction and (-) minus sign on product side for endothermic reactions.
+                    <span class="list-number">5.</span>
+                    <div>
+                        "Q" is heat energy which is shown with (+) plus sign on product side for exothermic reaction and (-) minus sign on product side for endothermic reactions.
+                    </div>
                 </li>
                 <li>
-                    A chemical equation containing simply symbols of elements and molecular formulae of the substance without balancing is known as Primary (or) skeleton equation.
+                    <span class="list-number">6.</span>
+                    <div>
+                        A chemical equation containing simply symbols of elements and molecular formulae of the substance without balancing is known as Primary (or) skeleton equation.
+                    </div>
                 </li>
                 <li>
-                    The symbols of elements and formulae of the compounds should not be changed but only their coefficient should be altered while balancing the chemical equation.
+                    <span class="list-number">7.</span>
+                    <div>
+                        The symbols of elements and formulae of the compounds should not be changed but only their coefficient should be altered while balancing the chemical equation.
+                    </div>
                 </li>
                 <li>
-                    Acid - base indicators are dye (or) mixtures of dyes which are used to detect the presence of acids & bases.
+                    <span class="list-number">8.</span>
+                    <div>
+                        Acid - base indicators are dye (or) mixtures of dyes which are used to detect the presence of acids & bases.
+                    </div>
                 </li>
                 <li>
-                    Acidic nature of a substance is due to the formation of H<sup>+</sup> ions in solution. Formation of OH<sup>-</sup> (aq) ions in solution is responsible for the basic nature of a substance.
+                    <span class="list-number">9.</span>
+                    <div>
+                        Acidic nature of a substance is due to the formation of H<sup>+</sup> ions in solution. Formation of OH<sup>-</sup> (aq) ions in solution is responsible for the basic nature of a substance.
+                    </div>
                 </li>
                 <li>
-                    The substances whose odour changes in acidic (or) basic medium are called olfactory indicators.
+                    <span class="list-number">10.</span>
+                    <div>
+                        The substances whose odour changes in acidic (or) basic medium are called olfactory indicators.
+                    </div>
                 </li>
                 <li>
-                    Onion, vanilla essence and clove oils are examples for olfactory indicators.
+                    <span class="list-number">11.</span>
+                    <div>
+                        Onion, vanilla essence and clove oils are examples for olfactory indicators.
+                    </div>
                 </li>
                 <li>
-                    When an acid reacts with metal gives corresponding salt and Hydrogen
-                    <ul>
-                        <li>Eg: Acid + Metal &rarr; Salt + Hydrogen</li>
-                        <li>Zn (s) + 2HCl (aq) &rarr; ZnCl<sub>2</sub> (aq) + H<sub>2</sub> (g) &uarr;</li>
-                    </ul>
-                    When a base reacts with metal gives corresponding salt and Hydrogen
-                    <ul>
-                        <li>Eg: Base + Metal &rarr; Salt + Hydrogen</li>
-                        <li>2NaOH (aq) + Zn (s) &rarr; Na<sub>2</sub>ZnO<sub>2</sub> (aq) + H<sub>2</sub> (g) &uarr;</li>
-                    </ul>
+                    <span class="list-number">12.</span>
+                    <div>
+                        **Reactions of Acids and Bases with Metals:**
+                        <ul>
+                            <li>Eg: Acid + Metal &rarr; Salt + Hydrogen</li>
+                            <li>Zn (s) + 2HCl (aq) &rarr; ZnCl<sub>2</sub> (aq) + H<sub>2</sub> (g) &uarr;</li>
+                        </ul>
+                        When a base reacts with metal gives corresponding salt and Hydrogen
+                        <ul>
+                            <li>Eg: Base + Metal &rarr; Salt + Hydrogen</li>
+                            <li>2NaOH (aq) + Zn (s) &rarr; Na<sub>2</sub>ZnO<sub>2</sub> (aq) + H<sub>2</sub> (g) &uarr;</li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    When a base reacts with a metal carbonate (or) metal hydrogen carbonate gives the corresponding salt, Carbon dioxide and water.
-                    <ul>
-                        <li>Eg : Metal Carbonate + Acid &rarr; Salt + Carbon dioxide + Water</li>
-                        <li>Na<sub>2</sub>CO<sub>3</sub> + 2HCl &rarr; 2NaCl + CO<sub>2</sub> + H<sub>2</sub>O</li>
-                    </ul>
-                    Metal Hydrogen Carbonate + Acid &rarr; Salt + Carbon dioxide + Water
-                    <ul>
-                        <li>NaHCO<sub>3</sub> + HCl &rarr; NaCl + CO<sub>2</sub> + H<sub>2</sub>O</li>
-                    </ul>
+                    <span class="list-number">13.</span>
+                    <div>
+                        **Reactions with Carbonates and Bicarbonates:**
+                        <ul>
+                            <li>Eg : Metal Carbonate + Acid &rarr; Salt + Carbon dioxide + Water</li>
+                            <li>Na<sub>2</sub>CO<sub>3</sub> + 2HCl &rarr; 2NaCl + CO<sub>2</sub> + H<sub>2</sub>O</li>
+                        </ul>
+                        Metal Hydrogen Carbonate + Acid &rarr; Salt + Carbon dioxide + Water
+                        <ul>
+                            <li>NaHCO<sub>3</sub> + HCl &rarr; NaCl + CO<sub>2</sub> + H<sub>2</sub>O</li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    When an acid reacts with base form salt and water
-                    <ul>
-                        <li>Acid + Base &rarr; Salt + Water</li>
-                        <li>HCl + NaOH &rarr; NaCl + H<sub>2</sub>O</li>
-                    </ul>
+                    <span class="list-number">14.</span>
+                    <div>
+                        **Neutralization Reaction:**
+                        <ul>
+                            <li>Acid + Base &rarr; Salt + Water</li>
+                            <li>HCl + NaOH &rarr; NaCl + H<sub>2</sub>O</li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    Acidic and basic solutions in water conduct electricity because they produce Hydrogen ions (H<sup>+</sup>) and Hydroxy ions (OH<sup>-</sup>) respectively.
+                    <span class="list-number">15.</span>
+                    <div>
+                        Acidic and basic solutions in water conduct electricity because they produce Hydrogen ions (H<sup>+</sup>) and Hydroxy ions (OH<sup>-</sup>) respectively.
+                    </div>
                 </li>
             </ol>
         </section>
