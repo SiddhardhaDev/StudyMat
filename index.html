@@ -6,746 +6,107 @@
     <title>Comprehensive Study Material</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module">
-        // Helper functions for cookie management
-        function setCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                const date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
-        }
-
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
-
-        // Expanded Questions - Ensure there are at least 10 questions per subject to pick from
-        const questions = {
-            math: [
-                { q: "What is the remainder 'r' in the Division Algorithm a = bq + r ; 0 &le; r which is less than b?", options: ["r &lt; b", "r &gt; b", "r = b", "r &le; 0"], correct: "r &lt; b", point: "Mathematics Point 1", subject: "Mathematics" },
-                { q: "According to the Fundamental Theorem of Arithmetic, how can every composite number be expressed?", options: ["As a sum of its primes", "As a product of its primes", "As a difference of its primes", "As a quotient of its primes"], correct: "As a product of its primes", point: "Mathematics Point 2", subject: "Mathematics" },
-                { q: "If 'p' is a prime and 'p' divides a<sup>2</sup>, what else does 'p' divide?", options: ["a<sup>3</sup>", "2a", "a", "a+p"], correct: "a", point: "Mathematics Point 3", subject: "Mathematics" },
-                { q: "A rational number x = P/q has a terminating decimal expansion if the prime factorization of q is of what form?", options: ["2<sup>n</sup>3<sup>m</sup>", "2<sup>n</sup>5<sup>m</sup>", "3<sup>n</sup>5<sup>m</sup>", "2<sup>n</sup>7<sup>m</sup>"], correct: "2<sup>n</sup>5<sup>m</sup>", point: "Mathematics Point 4", subject: "Mathematics" },
-                { q: "What is the decimal expansion of an irrational number?", options: ["Terminating and repeating", "Non-terminating and repeating", "Terminating and non-repeating", "Non-terminating and non-repeating"], correct: "Non-terminating and non-repeating", point: "Mathematics Point 7", subject: "Mathematics" },
-                { q: "Which of the following is an irrational number?", options: ["1/2", "0.333...", "&radic;4", "&pi;"], correct: "&pi;", point: "Mathematics Point 8", subject: "Mathematics" },
-                { q: "What is log xy base a equal to?", options: ["log<sub>a</sub>x &times; log<sub>a</sub>y", "log<sub>a</sub>x + log<sub>a</sub>y", "log<sub>a</sub>x - log<sub>a</sub>y", "log<sub>a</sub>(x+y)"], correct: "log<sub>a</sub>x + log<sub>a</sub>y", point: "Mathematics Point 11", subject: "Mathematics" },
-                { q: "What is the value of log 1 base a?", options: ["1", "a", "0", "undefined"], correct: "0", point: "Mathematics Point 15", subject: "Mathematics" },
-                { q: "How is the mean of an ungrouped data calculated?", options: ["Product of observations / No. of observations", "Sum of observations * No. of observations", "Difference of observations / No. of observations", "Sum of observations / No. of observations"], correct: "Sum of observations / No. of observations", point: "Mathematics Point 19", subject: "Mathematics" },
-                { q: "What is the Empirical relation among Mean, Median, and Mode?", options: ["Mode = Mean + Median", "Mode = 2 Median - 3 Mean", "Mode = Median - Mean", "Mode = 3 Median - 2 Mean"], correct: "Mode = 3 Median - 2 Mean", point: "Mathematics Point 30", subject: "Mathematics" },
-                { q: "What is the value of log a base a?", options: ["0", "1", "a", "undefined"], correct: "1", point: "Mathematics Point 16", subject: "Mathematics" },
-                { q: "If the number of observations 'n' is odd, what is the median for ungrouped data?", options: ["(n/2)th observation", "((n+1)/2)th observation", "(n-1)/2th observation", "n/2 + 1th observation"], correct: "((n+1)/2)th observation", point: "Mathematics Point 21 i)", subject: "Mathematics" },
-                { q: "In the step deviation method for grouped data, what does 'h' represent?", options: ["Frequency", "Assumed mean", "Class size", "Cumulative frequency"], correct: "Class size", point: "Mathematics Point 24", subject: "Mathematics" },
-                { q: "How is the direct method mean (x&#x0305;) for grouped data calculated?", options: ["(&Sigma;f<sub>i</sub>) / (&Sigma;f<sub>i</sub>x<sub>i</sub>)", "a + (&Sigma;f<sub>i</sub>d<sub>i</sub>) / (&Sigma;f<sub>i</sub>)", "(&Sigma;f<sub>i</sub>x<sub>i</sub>) / (&Sigma;f<sub>i</sub>)", "a + ((&Sigma;f<sub>i</sub>u<sub>i</sub>) / (&Sigma;f<sub>i</sub>)) * h"], correct: "(&Sigma;f<sub>i</sub>x<sub>i</sub>) / (&Sigma;f<sub>i</sub>)", point: "Mathematics Point 22", subject: "Mathematics" },
-                { q: "What are taken on the X-axis when drawing less than ogives?", options: ["Lower boundaries", "Upper boundaries", "Frequencies", "Class marks"], correct: "Upper boundaries", point: "Mathematics Point 27", subject: "Mathematics" },
-                { q: "What is the property of log (x/y) base a?", options: ["log<sub>a</sub>x + log<sub>a</sub>y", "log<sub>a</sub>x - log<sub>a</sub>y", "log<sub>a</sub>(x&times;y)", "log<sub>a</sub>(x<sup>y</sup>)"], correct: "log<sub>a</sub>x - log<sub>a</sub>y", point: "Mathematics Point 12", subject: "Mathematics" },
-                { q: "What is log (x<sup>m</sup>) base a equivalent to?", options: ["log<sub>a</sub>x + m", "m log<sub>a</sub>x", "log<sub>a</sub>(x/m)", "log<sub>a</sub>x &times; log<sub>a</sub>m"], correct: "m log<sub>a</sub>x", point: "Mathematics Point 13", subject: "Mathematics" },
-                { q: "What does 'a<sup>(log<sub>a</sub>N)</sup>' simplify to?", options: ["a", "N", "log<sub>a</sub>a", "1"], correct: "N", point: "Mathematics Point 14", subject: "Mathematics" },
-                { q: "If 'n' is even, what is the median for ungrouped data?", options: ["((n+1)/2)th observation", "Average of (n/2)th and ((n/2)+1)th observations", "(n/2)th observation", "n-1th observation"], correct: "Average of (n/2)th and ((n/2)+1)th observations", point: "Mathematics Point 21 ii)", subject: "Mathematics" },
-                { q: "For grouped data, what is 'l' in the mode formula?", options: ["Upper limit of modal class", "Lower limit of modal class", "Frequency of modal class", "Class size"], correct: "Lower limit of modal class", point: "Mathematics Point 25", subject: "Mathematics" },
-                { q: "What type of decimal expansion does x = P/q have if the prime factorization of q is NOT of the form 2<sup>n</sup>5<sup>m</sup>?", options: ["Terminating", "Non-terminating and repeating", "Non-terminating and non-repeating", "None of the above"], correct: "Non-terminating and repeating", point: "Mathematics Point 9", subject: "Mathematics" },
-                { q: "What does x&#x0305; (mean) denote in the assumed mean method?", options: ["Actual mean", "Assumed mean", "Deviation", "Frequency"], correct: "Actual mean", point: "Mathematics Point 23", subject: "Mathematics" },
-                { q: "Which of the following is NOT a law of logarithms?", options: ["log<sub>a</sub>(xy) = log<sub>a</sub>x + log<sub>a</sub>y", "log<sub>a</sub>(x/y) = log<sub>a</sub>x - log<sub>a</sub>y", "log<sub>a</sub>(x+y) = log<sub>a</sub>x + log<sub>a</sub>y", "log<sub>a</sub>(x<sup>m</sup>) = m log<sub>a</sub>x"], correct: "log<sub>a</sub>(x+y) = log<sub>a</sub>x + log<sub>a</sub>y", point: "Mathematics Point 11", subject: "Mathematics" },
-                { q: "What is 'f<sub>1</sub>' in the mode formula for grouped data?", options: ["Frequency of class preceding modal class", "Frequency of modal class", "Frequency of class succeeding modal class", "Cumulative frequency"], correct: "Frequency of modal class", point: "Mathematics Point 25", subject: "Mathematics" },
-                { q: "What are taken on the X-axis when drawing greater than ogives?", options: ["Lower boundaries", "Upper boundaries", "Frequencies", "Class marks"], correct: "Lower boundaries", point: "Mathematics Point 28", subject: "Mathematics" },
-                { q: "The median of grouped data can be obtained graphically as the x-coordinate of what point?", options: ["Intersection of X-axis and Y-axis", "Intersection of two ogives", "Midpoint of the histogram", "Peak of the frequency polygon"], correct: "Intersection of two ogives", point: "Mathematics Point 29", subject: "Mathematics" },
-                { q: "In the median formula for grouped data, what does 'n' represent?", options: ["Number of classes", "Total number of observations", "Frequency of median class", "Class size"], correct: "Total number of observations", point: "Mathematics Point 26", subject: "Mathematics" },
-                { q: "What is 'f' in the median formula for grouped data?", options: ["Frequency of class preceding median class", "Frequency of median class", "Frequency of class succeeding median class", "Cumulative frequency"], correct: "Frequency of median class", point: "Mathematics Point 26", subject: "Mathematics" },
-                { q: "A data set having two modes is called what?", options: ["Uni-modal", "Bi-modal", "Multi-modal", "Amodal"], correct: "Bi-modal", point: "Mathematics Point 20", subject: "Mathematics" },
-                { q: "What defines an irrational number?", options: ["A number that can be written as a fraction", "A number with a terminating decimal", "A positive number that is not a perfect square", "A number with a repeating decimal"], correct: "A positive number that is not a perfect square", point: "Mathematics Point 6", subject: "Mathematics" }
-            ],
-            physics: [
-                { q: "An image formed by the actual intersection of reflected rays is called what?", options: ["Virtual image", "Real image", "Diminished image", "Enlarged image"], correct: "Real image", point: "Physics Point 1 i)", subject: "Physics" },
-                { q: "When measuring distances for curved mirrors, from where should all distances be measured?", options: ["Focus", "Center of curvature", "Pole", "Optical center"], correct: "Pole", point: "Physics Point 2", subject: "Physics" },
-                { q: "For curved mirrors, what is the relationship between the radius of curvature (R) and the focal length (f)?", options: ["R = f", "R = f/2", "R = 2f", "R = 4f"], correct: "R = 2f", point: "Physics Point 3", subject: "Physics" },
-                { q: "Which type of mirror has its reflecting surface curved inwards?", options: ["Convex mirror", "Plane mirror", "Concave mirror", "Cylindrical mirror"], correct: "Concave mirror", point: "Physics Point 4", subject: "Physics" },
-                { q: "Which type of mirror always forms a virtual image for a real object?", options: ["Concave mirror", "Plane mirror", "Convex mirror", "Parabolic mirror"], correct: "Convex mirror", point: "Physics Point 5", subject: "Physics" },
-                { q: "What is the point called where rays parallel to the principal axis of a concave mirror converge after reflection?", options: ["Center of curvature", "Pole", "Optical center", "Focal point"], correct: "Focal point", point: "Physics Point 6", subject: "Physics" },
-                { q: "In the lens formula, 1/f = 1/v - 1/u, what does 'u' represent?", options: ["Image distance", "Focal length", "Object distance", "Radius of curvature"], correct: "Object distance", point: "Physics Point 13 ii)", subject: "Physics" },
-                { q: "According to lens maker's formula, what are R<sub>1</sub> and R<sub>2</sub>?", options: ["Radii of focus", "Radii of illumination", "Radii of curvature", "Radii of light"], correct: "Radii of curvature", point: "Physics Point 13 iii)", subject: "Physics" },
-                { q: "What remains the same when light changes its wavelength in different media?", options: ["Speed", "Frequency", "Amplitude", "Intensity"], correct: "Frequency", point: "Physics Point 15", subject: "Physics" },
-                { q: "Which type of mirror is used by dentists to see larger images of patients' teeth?", options: ["Convex mirror", "Plane mirror", "Concave mirror", "Cylindrical mirror"], correct: "Concave mirror", point: "Physics Point 9 v)", subject: "Physics" },
-                { q: "What is a double convex lens also known as?", options: ["Biconcave lens", "Plano-concave lens", "Bi-convex lens", "Converging lens"], correct: "Bi-convex lens", point: "Physics Point 10 i)", subject: "Physics" },
-                { q: "What is a double concave lens bounded by?", options: ["Two planar surfaces", "Two spherical surfaces curved outward", "Two spherical surfaces curved inward", "One planar and one curved surface"], correct: "Two spherical surfaces curved inward", point: "Physics Point 10 ii)", subject: "Physics" },
-                { q: "What is the distance between the focal point and pole of a lens called?", options: ["Radius of curvature", "Optical axis", "Focal length", "Principal axis"], correct: "Focal length", point: "Physics Point 11", subject: "Physics" },
-                { q: "Which ray passes undeviated through a lens?", options: ["Ray parallel to principal axis", "Ray passing through focal point", "Ray passing through optic centre", "Ray incident at pole"], correct: "Ray passing through optic centre", point: "Physics Point 12 ii)", subject: "Physics" },
-                { q: "When does a convex lens behave as a diverging lens?", options: ["When kept in a medium with refractive index less than lens", "When kept in a medium with refractive index equal to lens", "When kept in a medium with refractive index greater than lens", "It always behaves as converging"], correct: "When kept in a medium with refractive index greater than lens", point: "Physics Point 14", subject: "Physics" },
-                { q: "What type of image is formed by extended rays of reflection?", options: ["Real image", "Virtual image", "Inverted image", "Diminished image"], correct: "Virtual image", point: "Physics Point 1 ii)", subject: "Physics" },
-                { q: "In sign conventions for curved mirrors, how are heights measured upwards from the principal axis considered?", options: ["Negative", "Zero", "Positive", "Irrelevant"], correct: "Positive", point: "Physics Point 2 ii)", subject: "Physics" },
-                { q: "Which of these is a use of convex mirrors?", options: ["Torch lights", "Vehicle head lights", "Dentist mirrors", "Rear view mirrors in automobiles"], correct: "Rear view mirrors in automobiles", point: "Physics Point 9 i)", subject: "Physics" },
-                { q: "A ray passing parallel to the principal axis of a mirror, after reflection, passes through what point?", options: ["Center of curvature", "Pole", "Focal point", "Optical center"], correct: "Focal point", point: "Physics Point 8 i)", subject: "Physics" },
-                { q: "What does 'm' represent in the mirror magnification formula?", options: ["Mirror distance", "Object distance", "Size of the image / size of the object", "Focal length"], correct: "Size of the image / size of the object", point: "Physics Point 7 ii)", subject: "Physics" }
-            ],
-            chemistry: [
-                { q: "What is a chemical equation?", options: ["Graphical representation", "Symbolic representation of chemical change", "Numerical representation", "Artistic representation"], correct: "Symbolic representation of chemical change", point: "Chemistry Point 1", subject: "Chemistry" },
-                { q: "According to which law should a chemical equation always be balanced?", options: ["Law of Definite Proportions", "Law of Multiple Proportions", "Law of Conservation of Mass", "Law of Reciprocal Proportions"], correct: "Law of Conservation of Mass", point: "Chemistry Point 3", subject: "Chemistry" },
-                { q: "What are reactions called in which heat is evolved?", options: ["Endothermic", "Exothermic", "Photosynthetic", "Catalytic"], correct: "Exothermic", point: "Chemistry Point 4", subject: "Chemistry" },
-                { q: "A chemical equation without balancing is known as what?", options: ["Balanced equation", "Primary equation", "Net ionic equation", "Molecular equation"], correct: "Primary equation", point: "Chemistry Point 6", subject: "Chemistry" },
-                { q: "What ions are responsible for the acidic nature of a substance in solution?", options: ["OH<sup>-</sup>", "H<sup>+</sup>", "Na<sup>+</sup>", "Cl<sup>-</sup>"], correct: "H<sup>+</sup>", point: "Chemistry Point 9", subject: "Chemistry" },
-                { q: "What are substances called whose odor changes in acidic or basic medium?", options: ["pH indicators", "Olfactory indicators", "Litmus indicators", "Universal indicators"], correct: "Olfactory indicators", point: "Chemistry Point 10", subject: "Chemistry" },
-                { q: "When an acid reacts with a metal, what are the products?", options: ["Salt + Oxygen", "Salt + Carbon dioxide", "Salt + Hydrogen", "Salt + Water"], correct: "Salt + Hydrogen", point: "Chemistry Point 12", subject: "Chemistry" },
-                { q: "What are the products when a metal carbonate reacts with an acid?", options: ["Salt + Oxygen + Water", "Salt + Carbon dioxide + Water", "Salt + Hydrogen + Water", "Salt + Nitrogen + Water"], correct: "Salt + Carbon dioxide + Water", point: "Chemistry Point 13", subject: "Chemistry" },
-                { q: "What are the products when an acid reacts with a base?", options: ["Salt + Oxygen", "Salt + Carbon dioxide", "Salt + Water", "Salt + Hydrogen"], correct: "Salt + Water", point: "Chemistry Point 14", subject: "Chemistry" },
-                { q: "Why do acidic and basic solutions in water conduct electricity?", options: ["They are good conductors", "They produce ions", "They have high temperature", "They absorb light"], correct: "They produce ions", point: "Chemistry Point 15", subject: "Chemistry" },
-                { q: "Which statement is true about balancing a chemical equation?", options: ["Only symbols of elements can be changed", "Only molecular formulae can be changed", "Only coefficients should be altered", "Both symbols and formulae can be changed"], correct: "Only coefficients should be altered", point: "Chemistry Point 7", subject: "Chemistry" },
-                { q: "Which of the following is an example of an olfactory indicator?", options: ["Litmus paper", "Phenolphthalein", "Vanilla essence", "Methyl orange"], correct: "Vanilla essence", point: "Chemistry Point 11", subject: "Chemistry" },
-                { q: "What is the common term for the reaction between an acid and a base forming salt and water?", options: ["Decomposition", "Combination", "Neutralization", "Displacement"], correct: "Neutralization", point: "Chemistry Point 14", subject: "Chemistry" },
-                { q: "If heat is absorbed in a chemical reaction, what type of reaction is it?", options: ["Exothermic", "Endothermic", "Redox", "Combustion"], correct: "Endothermic", point: "Chemistry Point 4", subject: "Chemistry" },
-                { q: "What ions are responsible for the basic nature of a substance in solution?", options: ["H<sup>+</sup>", "Cl<sup>-</sup>", "OH<sup>-</sup>", "Na<sup>+</sup>"], correct: "OH<sup>-</sup>", point: "Chemistry Point 9", subject: "Chemistry" },
-                { q: "Where is 'Q' (heat energy) shown in an exothermic reaction?", options: ["On reactant side with minus sign", "On product side with minus sign", "On reactant side with plus sign", "On product side with plus sign"], correct: "On product side with plus sign", point: "Chemistry Point 5", subject: "Chemistry" },
-                { q: "What is the purpose of acid-base indicators?", options: ["To speed up reactions", "To detect presence of acids & bases", "To produce heat", "To neutralize solutions"], correct: "To detect presence of acids & bases", point: "Chemistry Point 8", subject: "Chemistry" },
-                { q: "What does a balanced chemical equation explain besides reactants and products?", options: ["Temperature of reaction", "Physical states of substances", "Time taken for reaction", "Color changes"], correct: "Physical states of substances", point: "Chemistry Point 2", subject: "Chemistry" },
-                { q: "When a base reacts with a metal, what are the products?", options: ["Salt + Oxygen", "Salt + Hydrogen", "Salt + Water", "Salt + Carbon Dioxide"], correct: "Salt + Hydrogen", point: "Chemistry Point 12", subject: "Chemistry" },
-                { q: "What are the products when a metal hydrogen carbonate reacts with an acid?", options: ["Salt + Water", "Salt + Carbon dioxide + Water", "Salt + Hydrogen + Water", "Salt + Oxygen"], correct: "Salt + Carbon dioxide + Water", point: "Chemistry Point 13", subject: "Chemistry" }
-            ]
-        };
-
-        let currentQuizQuestions = [];
-        let currentQuestionIndex = 0;
-        let userAnswers = {};
-        let quizHistory = []; // Stores historical scores loaded from/saved to cookies
-
-        // New initialization function for the UI
-        function initializeUI() {
-            loadQuizHistory(); // Load history immediately on UI init
-        }
-
-        // Shuffle function (Fisher-Yates)
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-            }
-            return array;
-        }
-
-        function startQuiz() {
-            // Select 10 random questions from the entire pool of each subject
-            const selectedMathQuestions = shuffleArray([...questions.math]).slice(0, 10);
-            const selectedPhysicsQuestions = shuffleArray([...questions.physics]).slice(0, 10);
-            const selectedChemistryQuestions = shuffleArray([...questions.chemistry]).slice(0, 10);
-
-            currentQuizQuestions = [
-                ...selectedMathQuestions,
-                ...selectedPhysicsQuestions,
-                ...selectedChemistryQuestions
-            ];
-
-            currentQuestionIndex = 0;
-            userAnswers = {};
-            
-            // Hide login/start screen and show quiz questions screen
-            const loginSection = document.getElementById('login-section');
-            const quizMainContent = document.getElementById('quiz-main-content');
-            const quizQuestionsScreen = document.getElementById('quiz-questions-screen');
-            const quizResultsScreen = document.getElementById('quiz-results-screen');
-            const quizHistoryScreen = document.getElementById('quiz-history-screen');
-
-            if (loginSection) loginSection.classList.add('hidden');
-            if (quizMainContent) quizMainContent.classList.remove('hidden');
-            if (quizQuestionsScreen) quizQuestionsScreen.classList.remove('hidden');
-            if (quizResultsScreen) quizResultsScreen.classList.add('hidden');
-            if (quizHistoryScreen) quizHistoryScreen.classList.add('hidden'); // Ensure history is hidden when starting quiz
-
-            displayQuestion();
-            updateQuizProgress();
-        }
-
-        function displayQuestion() {
-            const quizQuestionsContainer = document.getElementById('quiz-questions');
-            if (!quizQuestionsContainer) return;
-
-            quizQuestionsContainer.innerHTML = ''; // Clear previous question
-
-            if (currentQuestionIndex >= currentQuizQuestions.length) {
-                submitQuiz();
-                return;
-            }
-
-            const questionData = currentQuizQuestions[currentQuestionIndex];
-            const questionElement = document.createElement('div');
-            questionElement.className = 'quiz-question';
-            questionElement.innerHTML = `
-                <p class="font-semibold text-lg mb-4">Question ${currentQuestionIndex + 1}/${currentQuizQuestions.length}: ${questionData.q}</p>
-                <div id="options-container" class="space-y-3"></div>
-            `;
-            quizQuestionsContainer.appendChild(questionElement);
-
-            const optionsContainer = document.getElementById('options-container');
-            if (!optionsContainer) return;
-
-            shuffleArray(questionData.options).forEach(option => { // Shuffle options too
-                const optionElement = document.createElement('div');
-                optionElement.className = 'quiz-option hover:bg-blue-100 transition-colors duration-200';
-                optionElement.innerHTML = option;
-                optionElement.onclick = () => selectOption(optionElement, option);
-                optionsContainer.appendChild(optionElement);
-
-                // Highlight selected option if already answered
-                if (userAnswers[currentQuestionIndex] === option) {
-                    optionElement.classList.add('selected-option');
-                    optionElement.classList.add('bg-blue-200');
-                }
-            });
-
-            updateQuizProgress();
-        }
-
-        function selectOption(selectedOptionElement, selectedOption) {
-            const parentNode = selectedOptionElement.parentNode;
-            if (!parentNode) return;
-
-            // Remove selection from other options
-            Array.from(parentNode.children).forEach(option => {
-                option.classList.remove('selected-option', 'bg-blue-200');
-            });
-            // Add selection to the clicked option
-            selectedOptionElement.classList.add('selected-option', 'bg-blue-200');
-            userAnswers[currentQuestionIndex] = selectedOption;
-        }
-
-        function nextQuestion() {
-            if (userAnswers[currentQuestionIndex] === undefined) {
-                showMessageBox("Please select an option before proceeding.");
-                return;
-            }
-            currentQuestionIndex++;
-            displayQuestion();
-        }
-
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion();
-            }
-        }
-
-        function updateQuizProgress() {
-            const prevBtn = document.getElementById('quiz-prev-btn');
-            const nextBtn = document.getElementById('quiz-next-btn');
-            const submitBtn = document.getElementById('quiz-submit-btn');
-
-            if (prevBtn) {
-                if (currentQuestionIndex === 0) {
-                    prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                    prevBtn.disabled = true;
-                } else {
-                    prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    prevBtn.disabled = false;
-                }
-            }
-
-            if (nextBtn && submitBtn) {
-                if (currentQuestionIndex === currentQuizQuestions.length - 1) {
-                    nextBtn.classList.add('hidden');
-                    submitBtn.classList.remove('hidden');
-                } else {
-                    nextBtn.classList.remove('hidden');
-                    submitBtn.classList.add('hidden');
-                }
-            }
-        }
-
-        function submitQuiz() {
-            if (userAnswers[currentQuestionIndex] === undefined) {
-                showMessageBox("Please select an option for the current question before submitting.");
-                return;
-            }
-
-            let correctCount = 0;
-            const incorrectQuestionsDetails = [];
-            currentQuizQuestions.forEach((qData, index) => {
-                const userAnswer = userAnswers[index];
-                if (userAnswer === qData.correct) {
-                    correctCount++;
-                } else {
-                    incorrectQuestionsDetails.push({
-                        question: qData.q,
-                        userAnswer: userAnswer || "No answer selected",
-                        correctAnswer: qData.correct,
-                        relatedPoint: qData.point,
-                        subject: qData.subject
-                    });
-                }
-            });
-
-            const score = correctCount;
-            const totalQuestions = currentQuizQuestions.length;
-            const percentage = (score / totalQuestions) * 100;
-
-            const quizQuestionsScreen = document.getElementById('quiz-questions-screen');
-            const quizResultsScreen = document.getElementById('quiz-results-screen');
-            const quizScoreElement = document.getElementById('quiz-score');
-
-            if (quizQuestionsScreen) quizQuestionsScreen.classList.add('hidden');
-            if (quizResultsScreen) quizResultsScreen.classList.remove('hidden'); // Ensure results screen is shown
-            if (quizScoreElement) quizScoreElement.innerHTML = `You scored: <span class="font-bold text-blue-600">${score}/${totalQuestions}</span> (${percentage.toFixed(2)}%)`;
-
-            // Save results to cookie
-            const newResult = {
-                score: score,
-                totalQuestions: totalQuestions,
-                percentage: percentage,
-                timestamp: new Date().toISOString(), // Store as ISO string for consistent parsing
-                incorrectQuestions: incorrectQuestionsDetails
-            };
-            quizHistory.push(newResult);
-            setCookie('quiz_history', JSON.stringify(quizHistory), 365); // Store for 365 days
-
-            showMessageBox("Quiz completed!", 'success');
-            loadQuizHistory(); // Reload history from updated cookie to update charts
-        }
-
-        function loadQuizHistory() {
-            const historyCookie = getCookie('quiz_history');
-            if (historyCookie) {
-                try {
-                    quizHistory = JSON.parse(historyCookie);
-                } catch (e) {
-                    console.error("Error parsing quiz history from cookie:", e);
-                    quizHistory = []; // Reset if parsing fails
-                }
-            } else {
-                quizHistory = [];
-            }
-
-            const wrongAnswersHistory = document.getElementById('wrong-answers-history');
-            if (wrongAnswersHistory) wrongAnswersHistory.innerHTML = ''; // Clear previous wrong answers
-
-            const subjectErrorCounts = { "Mathematics": 0, "Physics": 0, "Chemistry": 0 };
-
-            quizHistory.forEach((data) => {
-                // Aggregate wrong answers by subject
-                if (data.incorrectQuestions && data.incorrectQuestions.length > 0) {
-                    data.incorrectQuestions.forEach(item => {
-                        if (item.subject && subjectErrorCounts[item.subject] !== undefined) {
-                            subjectErrorCounts[item.subject]++;
-                        }
-                    });
-
-                    const historyItem = document.createElement('div');
-                    historyItem.className = 'bg-red-50 p-3 rounded-md mb-3 border border-red-200';
-                    const quizDate = data.timestamp ? new Date(data.timestamp).toLocaleString() : 'N/A'; // Parse string timestamp
-                    historyItem.innerHTML = `<p class="font-semibold text-red-700 mb-2">Quiz on ${quizDate} - Incorrect Answers (${data.incorrectQuestions.length} wrong):</p>`;
-                    data.incorrectQuestions.forEach(item => {
-                        historyItem.innerHTML += `<p class="text-sm ml-2"><strong>Q:</strong> ${item.question}<br><strong>Your Answer:</strong> ${item.userAnswer}<br><strong>Correct:</strong> ${item.correctAnswer}<br><em>Related to: ${item.relatedPoint} (${item.subject})</em></p><br>`;
-                    });
-                    if (wrongAnswersHistory) wrongAnswersHistory.appendChild(historyItem);
-                }
-            });
-
-            // In-memory sorting by timestamp (descending, most recent first)
-            quizHistory.sort((a, b) => {
-                const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
-                const timeB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
-                return timeB - timeA; // Sort descending
-            });
-
-            updatePerformanceGraph();
-            drawSubjectErrorsChart(subjectErrorCounts);
-        }
-
-        function updatePerformanceGraph() {
-            const canvas = document.getElementById('performance-chart');
-            if (!canvas) { // Ensure canvas element exists
-                console.warn("Performance chart canvas not found.");
-                return;
-            }
-            const ctx = canvas.getContext('2d');
-            
-            // Adjust canvas resolution for high-DPI displays
-            const dpr = window.devicePixelRatio || 1;
-            const rect = canvas.getBoundingClientRect(); // Get CSS pixels
-            canvas.width = rect.width * dpr;
-            canvas.height = rect.height * dpr;
-            ctx.scale(dpr, dpr);
-
-            ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr); // Clear using CSS pixels for scaling
-
-            if (quizHistory.length === 0) {
-                const performanceStats = document.getElementById('performance-stats');
-                if (performanceStats) performanceStats.textContent = 'No quiz history available.';
-                return;
-            }
-
-            const totalMaxQuestionsForGraph = 30; // Quizzes are fixed at 30 questions
-            const totalScores = quizHistory.reduce((sum, entry) => sum + entry.score, 0);
-            const averageScore = totalScores / quizHistory.length;
-            const performanceStats = document.getElementById('performance-stats');
-            if (performanceStats) performanceStats.innerHTML = `Average Score: <span class="font-bold text-blue-600">${averageScore.toFixed(2)} / ${totalMaxQuestionsForGraph}</span>`;
-
-            const scores = quizHistory.map(entry => entry.score);
-            const maxScore = totalMaxQuestionsForGraph;
-            const minScore = 0;
-
-            // Use CSS pixel dimensions for drawing calculations since context is scaled
-            const chartWidth = rect.width - 2 * 30; // 30 is margin
-            const chartHeight = rect.height - 2 * 30; // 30 is margin
-            const margin = 30;
-
-            // Draw axes
-            ctx.beginPath();
-            ctx.strokeStyle = '#6b7280';
-            ctx.lineWidth = 1;
-            // Y-axis
-            ctx.moveTo(margin, margin);
-            ctx.lineTo(margin, rect.height - margin);
-            // X-axis
-            ctx.moveTo(margin, rect.height - margin);
-            ctx.lineTo(rect.width - margin, rect.height - margin);
-            ctx.stroke();
-
-            // Draw Y-axis labels (scores)
-            ctx.font = '12px Inter';
-            ctx.fillStyle = '#6b7280';
-            const numYLabels = 5;
-            for (let i = 0; i <= numYLabels; i++) {
-                const y = margin + chartHeight * (1 - i / numYLabels);
-                const scoreLabel = Math.round(minScore + (maxScore - minScore) * (i / numYLabels));
-                ctx.fillText(scoreLabel, margin - 25, y + 5);
-            }
-            ctx.fillText('Score', margin - 25, margin - 10); // Y-axis label
-
-            // Draw X-axis labels (quiz number)
-            if (scores.length > 0) {
-                const stepX = chartWidth / (scores.length > 1 ? scores.length - 1 : 1);
-                for (let i = 0; i < scores.length; i++) {
-                    const x = margin + i * stepX;
-                    ctx.fillText(`Q${i + 1}`, x - 5, rect.height - margin + 20);
-                }
-            } else if (scores.length === 1) {
-                // Handle single point case
-                ctx.fillText(`Q1`, margin, rect.height - margin + 15);
-            }
-
-            // Draw data points and lines
-            ctx.beginPath();
-            ctx.strokeStyle = '#3182ce'; // Blue for score line
-            ctx.lineWidth = 2;
-            for (let i = 0; i < scores.length; i++) {
-                const x = scores.length > 1 ? margin + (i / (scores.length - 1)) * chartWidth : margin; // Adjust x calculation for single point case
-                const y = margin + chartHeight * (1 - (scores[i] - minScore) / (maxScore - minScore));
-                if (i === 0) {
-                    ctx.moveTo(x, y);
-                } else {
-                    ctx.lineTo(x, y);
-                }
-                // Draw points
-                ctx.arc(x, y, 4, 0, Math.PI * 2, false);
-                ctx.fillStyle = '#3182ce';
-                ctx.fill();
-            }
-            ctx.stroke();
-
-            // Draw average line
-            ctx.beginPath();
-            ctx.strokeStyle = '#f56565'; // Red for average line
-            ctx.lineWidth = 1;
-            ctx.setLineDash([5, 5]); // Dashed line
-            const avgY = margin + chartHeight * (1 - (averageScore - minScore) / (maxScore - minScore));
-            ctx.moveTo(margin, avgY);
-            ctx.lineTo(rect.width - margin, avgY);
-            ctx.stroke();
-            ctx.setLineDash([]); // Reset line dash
-
-            ctx.fillStyle = '#f56565';
-            ctx.fillText('Avg', rect.width - margin + 5, avgY + 5);
-        }
-
-        function drawSubjectErrorsChart(subjectErrorCounts) {
-            const canvas = document.getElementById('subject-errors-chart');
-            if (!canvas) {
-                console.warn("Subject errors chart canvas not found.");
-                return;
-            }
-            const ctx = canvas.getContext('2d');
-
-            // Adjust canvas resolution for high-DPI displays
-            const dpr = window.devicePixelRatio || 1;
-            const rect = canvas.getBoundingClientRect(); // Get CSS pixels
-            canvas.width = rect.width * dpr;
-            canvas.height = rect.height * dpr;
-            ctx.scale(dpr, dpr);
-
-            ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr); // Clear using CSS pixels for scaling
-
-            const subjects = Object.keys(subjectErrorCounts);
-            const counts = Object.values(subjectErrorCounts);
-            const maxCount = Math.max(...counts, 1); // Ensure maxCount is at least 1 to avoid division by zero
-
-            // Use CSS pixel dimensions for drawing calculations since context is scaled
-            const chartWidth = rect.width - 2 * 30; // 30 is margin
-            const chartHeight = rect.height - 2 * 30; // 30 is margin
-            const margin = 30;
-            const barWidth = (chartWidth / subjects.length) * 0.6; // Slightly narrower bars
-            const barSpacing = chartWidth / subjects.length;
-
-            // Draw axes
-            ctx.beginPath();
-            ctx.strokeStyle = '#6b7280';
-            ctx.lineWidth = 1;
-            // Y-axis
-            ctx.moveTo(margin, margin);
-            ctx.lineTo(margin, rect.height - margin);
-            // X-axis
-            ctx.moveTo(margin, rect.height - margin);
-            ctx.lineTo(rect.width - margin, rect.height - margin);
-            ctx.stroke();
-
-            // Draw Y-axis labels (counts)
-            ctx.font = '12px Inter';
-            ctx.fillStyle = '#6b7280';
-            const numYLabels = Math.min(maxCount, 5); // Max 5 labels or actual max count
-            for (let i = 0; i <= numYLabels; i++) {
-                const y = margin + chartHeight * (1 - i / numYLabels);
-                const label = Math.round(maxCount * (i / numYLabels));
-                ctx.fillText(label, margin - 25, y + 5);
-            }
-            ctx.fillText('Errors', margin - 25, margin - 10); // Y-axis label
-
-            // Draw bars
-            const colors = ['#60a5fa', '#34d399', '#f87171']; // Blue, Green, Red for subjects
-            for (let i = 0; i < subjects.length; i++) {
-                const x = margin + i * barSpacing + (barSpacing - barWidth) / 2;
-                const barHeight = (counts[i] / maxCount) * chartHeight;
-                const y = rect.height - margin - barHeight;
-
-                ctx.fillStyle = colors[i % colors.length]; // Cycle colors
-                ctx.fillRect(x, y, barWidth, barHeight);
-
-                // Draw bar labels
-                ctx.fillStyle = '#1a202c';
-                ctx.textAlign = 'center';
-                ctx.fillText(subjects[i], x + barWidth / 2, rect.height - margin + 20);
-                if (counts[i] > 0) { // Only show count if greater than 0
-                    ctx.fillText(counts[i], x + barWidth / 2, y - 5); // Value on top of bar
-                }
-            }
-        }
-
-        // Message Box functionality (instead of alert/confirm)
-        function showMessageBox(message, type = 'info') {
-            const msgBox = document.getElementById('message-box');
-            const msgText = document.getElementById('message-box-text');
-            const msgIcon = document.getElementById('message-box-icon');
-
-            if (!msgBox || !msgText || !msgIcon) { // Safeguard if elements are null
-                console.error("Message box elements not found.");
-                return;
-            }
-
-            msgText.textContent = message;
-            msgBox.className = 'fixed bottom-4 right-4 p-4 rounded-lg shadow-lg flex items-center transition-transform duration-300 ease-out z-50';
-
-            // Reset classes
-            msgBox.classList.remove('bg-green-100', 'border-green-400', 'text-green-700', 'bg-blue-100', 'border-blue-400', 'text-blue-700', 'bg-red-100', 'border-red-400', 'text-red-700');
-            msgIcon.innerHTML = '';
-
-            if (type === 'success') {
-                msgBox.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
-                msgIcon.innerHTML = '<svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
-            } else if (type === 'error') {
-                msgBox.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
-                msgIcon.innerHTML = '<svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
-            } else { // info
-                msgBox.classList.add('bg-blue-100', 'border-blue-400', 'text-blue-700');
-                msgIcon.innerHTML = '<svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
-            }
-            
-            msgBox.style.transform = 'translateX(0)';
-            setTimeout(() => {
-                msgBox.style.transform = 'translateX(calc(100% + 1rem))'; // Slide out
-            }, 5000); // Hide after 5 seconds
-        }
-
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            const startQuizBtn = document.getElementById('start-quiz-btn');
-            const closeQuizBtn = document.getElementById('close-quiz-btn');
-            const quizStartButton = document.getElementById('quiz-start-button');
-            const viewHistoryBtn = document.getElementById('view-history-btn');
-            const quizNextBtn = document.getElementById('quiz-next-btn');
-            const quizPrevBtn = document.getElementById('quiz-prev-btn');
-            const quizSubmitBtn = document.getElementById('quiz-submit-btn');
-
-            if (startQuizBtn) {
-                startQuizBtn.addEventListener('click', () => {
-                    const quizOverlay = document.getElementById('quiz-overlay');
-                    const loginSection = document.getElementById('login-section');
-                    const quizMainContent = document.getElementById('quiz-main-content');
-                    
-                    if (quizOverlay) quizOverlay.classList.remove('hidden'); // SHOW overlay
-                    if (loginSection) loginSection.classList.remove('hidden'); // Show login screen when quiz button clicked
-                    if (quizMainContent) quizMainContent.classList.add('hidden'); // Hide main quiz content initially
-                });
-            }
-
-            if (closeQuizBtn) {
-                closeQuizBtn.addEventListener('click', () => {
-                    const quizOverlay = document.getElementById('quiz-overlay');
-                    if (quizOverlay) {
-                        quizOverlay.classList.add('hidden'); // Close the quiz overlay
-                    }
-                });
-            }
-
-            if (quizStartButton) quizStartButton.addEventListener('click', startQuiz);
-            if (quizNextBtn) quizNextBtn.addEventListener('click', nextQuestion);
-            if (quizPrevBtn) quizPrevBtn.addEventListener('click', prevQuestion);
-            if (quizSubmitBtn) quizSubmitBtn.addEventListener('click', submitQuiz);
-
-            // Replaced inline onclick attributes with addEventListener for better scoping
-            const takeQuizAgainBtn = document.querySelector('#quiz-results-screen button:first-of-type');
-            if (takeQuizAgainBtn) {
-                takeQuizAgainBtn.addEventListener('click', startQuiz);
-            }
-
-            const viewHistoryBtnResultsScreen = document.querySelector('#quiz-results-screen button:last-of-type');
-            if (viewHistoryBtnResultsScreen) {
-                viewHistoryBtnResultsScreen.addEventListener('click', () => {
-                    const quizHistoryScreen = document.getElementById('quiz-history-screen');
-                    const quizResultsScreen = document.getElementById('quiz-results-screen');
-                    if (quizHistoryScreen) quizHistoryScreen.classList.remove('hidden');
-                    if (quizResultsScreen) quizResultsScreen.classList.add('hidden');
-                    loadQuizHistory();
-                });
-            }
-
-            const backToQuizStartBtn = document.querySelector('#quiz-history-screen button');
-            if (backToQuizStartBtn) {
-                backToQuizStartBtn.addEventListener('click', () => {
-                    const loginSection = document.getElementById('login-section');
-                    const quizMainContent = document.getElementById('quiz-main-content');
-                    if (loginSection) loginSection.classList.remove('hidden');
-                    if (quizMainContent) quizMainContent.classList.add('hidden');
-                });
-            }
-
-            if (viewHistoryBtn) {
-                viewHistoryBtn.addEventListener('click', () => {
-                    const loginSection = document.getElementById('login-section');
-                    const quizMainContent = document.getElementById('quiz-main-content');
-                    const quizHistoryScreen = document.getElementById('quiz-history-screen');
-                    const quizQuestionsScreen = document.getElementById('quiz-questions-screen');
-                    const quizResultsScreen = document.getElementById('quiz-results-screen');
-
-                    if (loginSection) loginSection.classList.add('hidden');
-                    if (quizMainContent) quizMainContent.classList.remove('hidden');
-                    if (quizHistoryScreen) quizHistoryScreen.classList.remove('hidden');
-                    if (quizQuestionsScreen) quizQuestionsScreen.classList.add('hidden');
-                    if (quizResultsScreen) quizResultsScreen.classList.add('hidden');
-                    
-                    loadQuizHistory();
-                });
-            }
-
-            // Add an event listener for window resize to redraw charts
-            window.addEventListener('resize', () => {
-                // Only redraw if the history screen is currently visible
-                if (!document.getElementById('quiz-history-screen').classList.contains('hidden')) {
-                    loadQuizHistory(); // This will trigger redrawing of charts
-                }
-            });
-        });
-        document.addEventListener('DOMContentLoaded', initializeUI);
-    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         body {
-            font-family: 'Inter', sans-serif; /* Modern sans-serif font for body */
-            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%); /* Soft gradient background */
-            color: #4a5568; /* Slightly darker text for better contrast */
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0f2f7 0%, #c1e7f3 100%);
+            color: #2d3748; /* Darker text for better contrast */
             line-height: 1.6;
         }
         .container {
             max-width: 1024px;
-            background-color: #ffffff; /* Crisp white content area */
-            padding: 2.5rem; /* Increased padding */
-            border-radius: 1.5rem; /* More rounded corners */
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Deeper shadow */
-            margin-bottom: 2rem; /* Space below container */
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.15), 0 8px 15px -5px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
         }
         h1 {
-            font-family: 'Poppins', sans-serif; /* Poppins for headings for modern feel */
+            font-family: 'Poppins', sans-serif;
             font-weight: 800;
-            color: #2c5282; /* Deep blue for main title */
+            color: #2a69ac; /* Deeper blue */
             letter-spacing: -0.03em;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* Subtle text shadow */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.08);
         }
         h2 {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            color: #3182ce; /* Bright blue for section titles */
+            color: #3182ce;
             letter-spacing: -0.02em;
             position: relative;
             padding-bottom: 0.75rem;
-            margin-bottom: 2.5rem; /* More space below section titles */
+            margin-bottom: 2.5rem;
         }
-        h2::after { /* Underline effect for section titles - now full width and subtle */
+        h2::after {
             content: '';
             position: absolute;
             left: 0;
             bottom: 0;
-            width: 100%; /* Full width underline */
-            height: 2px; /* Thinner line */
-            background-color: #cbd5e0; /* Very light, subtle blue-gray */
+            width: 100%;
+            height: 2px;
+            background-color: #bee3f8; /* Lighter blue line */
             border-radius: 1px;
         }
         
         /* --- List Styling --- */
         ol {
-            list-style-type: none; /* Remove default decimal numbering to use custom */
-            padding-left: 0; /* Remove default padding for custom alignment */
-            margin-left: 0; /* Ensure no extra margin */
+            list-style-type: none;
+            padding-left: 0;
+            margin-left: 0;
         }
         li {
-            margin-bottom: 1.2rem; /* Consistent spacing between list items */
+            margin-bottom: 1.2rem;
             line-height: 1.6;
-            display: flex; /* Enable flexbox for number-text alignment */
-            align-items: flex-start; /* Align number and text at the top */
+            display: flex;
+            align-items: flex-start;
+            background-color: #f7fafc;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
         /* Custom number styling */
         li .list-number {
             font-weight: 600;
-            color: #4a5568;
+            color: #4c6a8b; /* Slightly darker number */
             margin-right: 0.75rem;
-            min-width: 1.5rem; /* Ensure number takes consistent space */
+            min-width: 1.5rem;
             text-align: right;
-            flex-shrink: 0; /* Prevent number from shrinking */
+            flex-shrink: 0;
+            font-size: 1.1em;
         }
         li > div {
-            flex-grow: 1; /* Allow text content to take remaining space */
+            flex-grow: 1;
         }
 
         /* Sub-points styling (i, ii, iii, etc.) */
-        li ul { /* This targets unordered lists nested directly within a list item */
-            list-style-type: lower-roman; /* For i, ii, iii */
-            padding-left: 1.5rem; /* Indent sub-points */
-            margin-top: 0.5rem; /* Space above sub-list */
-            margin-bottom: 0.5rem; /* Space below sub-list */
-            border-left: 2px solid #e0e7eb; /* Visual separation for nested content */
-            padding-top: 0.5rem; /* Padding inside the border */
-            padding-bottom: 0.5rem; /* Padding inside the border */
+        li ul {
+            list-style-type: lower-roman;
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-left: 2px solid #a0d1eb; /* Brighter border */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            background-color: #ebf8ff; /* Very light blue background */
+            border-radius: 0.5rem;
+            margin-top: 1rem;
         }
         li ul li {
-            font-size: 0.95em; /* Slightly smaller font for sub-points */
-            margin-bottom: 0.4rem; /* Space between sub-points */
+            font-size: 0.95em;
+            margin-bottom: 0.4rem;
             line-height: 1.5;
-            border-bottom: none; /* Ensure no borders on sub-points */
+            border-bottom: none;
             padding-bottom: 0;
-            display: list-item; /* Re-enable default list-item behavior for lower-roman */
+            display: list-item;
+            background-color: transparent; /* Sub-list items transparent */
+            box-shadow: none;
+            border: none;
         }
 
         /* Specific styling for mathematical and chemical symbols */
@@ -779,10 +140,11 @@
                 font-size: 2rem;
             }
             li {
-                margin-bottom: 0.8rem; /* Adjusted for smaller screens */
+                margin-bottom: 0.8rem;
+                padding: 0.75rem;
             }
             ol {
-                padding-left: 0.5rem; /* Slightly less padding on mobile for main list */
+                padding-left: 0.5rem;
             }
             li ul {
                 padding-left: 1rem;
@@ -796,31 +158,32 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+            background-color: rgba(0, 0, 0, 0.8); /* Darker overlay */
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            backdrop-filter: blur(5px); /* Blurred background */
-            -webkit-backdrop-filter: blur(5px);
-            overflow-y: auto; /* Allow scrolling for longer quizzes */
+            backdrop-filter: blur(8px); /* Stronger blur */
+            -webkit-backdrop-filter: blur(8px);
+            overflow-y: auto;
         }
 
-        .hidden { /* Override Tailwind's hidden to ensure it's effective for quiz overlay */
+        .hidden {
             display: none !important;
         }
 
         #quiz-container {
             background-color: #ffffff;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
             max-width: 800px;
             width: 95%;
-            max-height: 90vh; /* Limit height to enable scrolling */
-            overflow-y: auto; /* Enable scrolling within quiz container */
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
-            animation: fadeInScale 0.3s ease-out forwards; /* Smooth entry animation */
+            animation: fadeInScale 0.3s ease-out forwards;
+            border: 2px solid #63b3ed; /* Blue border for pop-up */
         }
 
         @keyframes fadeInScale {
@@ -836,38 +199,49 @@
 
         .quiz-question {
             margin-bottom: 1.5rem;
-            padding: 1rem;
-            background-color: #f8fafc; /* Light background for questions */
-            border-left: 4px solid #60a5fa; /* Accent border */
-            border-radius: 0.5rem;
+            padding: 1.25rem;
+            background-color: #e0f7fa; /* Light cyan */
+            border-left: 5px solid #2bc7eb; /* Vibrant blue-green */
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
 
         .quiz-option {
-            background-color: #edf2f7; /* Lighter background for options */
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
+            background-color: #f0faff; /* Lighter blue */
+            padding: 0.85rem 1.25rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-out;
+            border: 1px solid #d1ecf1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .quiz-option:hover {
-            background-color: #dbeafe; /* Lighter blue on hover */
+            background-color: #cceeff; /* More vibrant hover */
+            transform: translateY(-2px);
+        }
+
+        .quiz-option:active {
+            transform: translateY(0);
         }
 
         .selected-option {
-            background-color: #a7d3f5 !important; /* Blue when selected */
-            border: 1px solid #3b82f6;
+            background-color: #81d4fa !important; /* Brighter blue selection */
+            border: 2px solid #2196f3;
+            box-shadow: 0 3px 8px rgba(33, 150, 243, 0.3);
         }
 
         .correct-answer {
-            background-color: #d1fae5 !important; /* Green for correct */
-            border: 1px solid #10b981;
+            background-color: #a7f3d0 !important; /* Soft green for correct */
+            border: 2px solid #38a169;
+            box-shadow: 0 3px 8px rgba(56, 161, 105, 0.3);
         }
 
         .wrong-answer {
-            background-color: #fee2e2 !important; /* Red for wrong */
-            border: 1px solid #ef4444;
+            background-color: #ffcdd2 !important; /* Soft red for wrong */
+            border: 2px solid #e53e3e;
+            box-shadow: 0 3px 8px rgba(229, 62, 62, 0.3);
         }
 
         #close-quiz-btn {
@@ -876,30 +250,153 @@
             right: 1rem;
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem; /* Larger close button */
             cursor: pointer;
             color: #6b7280;
-            transition: color 0.2s;
+            transition: color 0.2s, transform 0.1s;
         }
         #close-quiz-btn:hover {
-            color: #ef4444;
+            color: #e53e3e; /* Red on hover */
+            transform: rotate(90deg);
         }
 
         #performance-chart,
-        #subject-errors-chart { /* Apply styles to both canvases */
+        #subject-errors-chart {
             background-color: #fff;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             border: 1px solid #e2e8f0;
-            max-width: 100%;
-            height: 250px; /* Fixed height for consistency */
+            width: 100%;
+            height: 250px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
         #message-box {
-            transform: translateX(calc(100% + 1rem)); /* Start off-screen */
+            transform: translateX(calc(100% + 1rem));
+        }
+
+        /* Style for feedback message */
+        #feedback-message {
+            padding: 0.9rem;
+            margin-top: 1.5rem;
+            border-radius: 0.75rem;
+            background-color: #f0f0f0; /* Neutral background by default */
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        /* Custom Confirmation Dialog Styles */
+        #confirm-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            z-index: 1001;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            border: 2px solid #f6ad55; /* Orange border for warning */
+        }
+        #confirm-box-text {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: #333;
+            font-weight: 600;
+        }
+        #confirm-box .flex button {
+            padding: 0.9rem 1.8rem;
+            border-radius: 0.6rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #confirm-box .flex button:hover {
+            transform: translateY(-2px);
+        }
+        #confirm-btn-yes {
+            background-color: #ef4444; /* Stronger red */
+            color: white;
+        }
+        #confirm-btn-yes:hover {
+            background-color: #dc2626;
+        }
+        #confirm-btn-no {
+            background-color: #e2e8f0; /* Lighter gray */
+            color: #4a5568;
+        }
+        #confirm-btn-no:hover {
+            background-color: #cbd5e0;
+        }
+
+        /* Buttons common style */
+        .btn-primary {
+            background-color: #4299e1; /* Blue */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-primary:hover {
+            background-color: #3182ce;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #a0aec0; /* Gray */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-secondary:hover {
+            background-color: #718096;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: #48bb78; /* Green */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-success:hover {
+            background-color: #38a169;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: #ef4444; /* Red */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .table-header {
+            background-color: #e2e8f0;
+            color: #2d3748;
+            font-weight: 700;
         }
     </style>
 </head>
 <body class="p-4 sm:p-8">
-    <div class="container mx-auto bg-white p-6 sm:p-12 rounded-xl shadow-2xl">
+    <div class="container mx-auto">
         <h1 class="text-3xl sm:text-5xl text-center mb-10 pb-4">Comprehensive Study Material</h1>
 
         <section class="mb-16">
@@ -1354,7 +851,7 @@
 
     <!-- Quiz Button -->
     <div class="fixed bottom-8 right-8 z-50">
-        <button id="start-quiz-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+        <button id="start-quiz-btn" class="btn-primary py-3 px-6 rounded-full shadow-lg">
             Start Quiz
         </button>
     </div>
@@ -1362,39 +859,41 @@
     <!-- Quiz Overlay -->
     <div id="quiz-overlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-70 flex justify-center items-center p-4 z-[1000]">
         <div id="quiz-container" class="bg-white p-6 sm:p-10 rounded-xl shadow-2xl relative w-full max-w-3xl h-[90vh] overflow-y-auto">
-            <button id="close-quiz-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-3xl font-semibold">
+            <button id="close-quiz-btn" class="absolute top-4 right-4">
                 &times;
             </button>
 
-            <!-- Initial Quiz Entry Section (no login/auth needed) -->
+            <!-- Initial Quiz Entry Section -->
             <div id="login-section" class="text-center p-8">
                 <h3 class="text-2xl font-bold text-gray-800 mb-4">Welcome to the Quiz!</h3>
                 <p class="text-gray-700 mb-6">Test your knowledge with our comprehensive quiz.</p>
                 <div class="mt-8">
-                    <button id="quiz-start-button" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 transform hover:scale-105 mr-4">
+                    <button id="quiz-start-button" class="btn-success mr-4">
                         Start New Quiz
                     </button>
-                    <button id="view-history-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 transform hover:scale-105">
+                    <button id="view-history-btn" class="btn-primary">
                         View Quiz History
                     </button>
                 </div>
             </div>
 
-            <!-- Main Quiz Content (questions, results, history) - Hidden by default -->
+            <!-- Main Quiz Content (questions, results, history) -->
             <div id="quiz-main-content" class="hidden">
                 <!-- Quiz Questions Screen -->
                 <div id="quiz-questions-screen" class="hidden">
                     <div id="quiz-questions">
                         <!-- Questions will be loaded here -->
                     </div>
+                    <!-- Feedback message will appear here -->
+                    <div id="feedback-message" class="mt-4 text-center font-semibold hidden"></div>
                     <div class="flex justify-between mt-6">
-                        <button id="quiz-prev-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition duration-200">
+                        <button id="quiz-prev-btn" class="btn-secondary">
                             Previous
                         </button>
-                        <button id="quiz-next-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                        <button id="quiz-next-btn" class="btn-primary">
                             Next
                         </button>
-                        <button id="quiz-submit-btn" class="hidden bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                        <button id="quiz-submit-btn" class="hidden btn-success">
                             Submit Quiz
                         </button>
                     </div>
@@ -1404,10 +903,10 @@
                 <div id="quiz-results-screen" class="hidden text-center">
                     <h3 class="text-3xl font-bold text-gray-800 mb-4">Quiz Results</h3>
                     <p id="quiz-score" class="text-xl text-gray-700 mb-6"></p>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mr-4">
+                    <button class="btn-primary mr-4">
                         Take Quiz Again
                     </button>
-                    <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg">
+                    <button class="btn-secondary">
                         View History
                     </button>
                 </div>
@@ -1415,22 +914,47 @@
                 <!-- Quiz History Screen -->
                 <div id="quiz-history-screen" class="hidden">
                     <h3 class="text-3xl font-bold text-gray-800 mb-6 text-center">Quiz Performance History</h3>
+                    <p id="no-history-message" class="text-lg text-gray-700 mb-4 text-center hidden">No quiz history available. Take a quiz to see your results here!</p>
                     <p id="performance-stats" class="text-lg text-gray-700 mb-4 text-center"></p>
+                    
                     <div class="flex justify-center mb-6">
                         <canvas id="performance-chart" width="700" height="300" class="w-full max-w-md"></canvas>
                     </div>
+                    
                     <h4 class="text-2xl font-bold text-gray-800 mb-4 mt-8">Errors by Subject:</h4>
                     <div class="flex justify-center mb-6">
                         <canvas id="subject-errors-chart" width="700" height="300" class="w-full max-w-md"></canvas>
                     </div>
 
-                    <h4 class="text-2xl font-bold text-gray-800 mb-4 mt-8">Incorrect Answers from Previous Quizzes:</h4>
-                    <div id="wrong-answers-history" class="space-y-4">
-                        <!-- Wrong answers will be loaded here -->
+                    <h4 class="text-2xl font-bold text-gray-800 mb-4 mt-8">Quiz Attempts (Current Session):</h4>
+                    <div class="overflow-x-auto relative shadow-md sm:rounded-lg mb-6">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs uppercase table-header">
+                                <tr>
+                                    <th scope="col" class="py-3 px-6 rounded-tl-lg">Date</th>
+                                    <th scope="col" class="py-3 px-6">Score</th>
+                                    <th scope="col" class="py-3 px-6">Percentage</th>
+                                    <th scope="col" class="py-3 px-6 rounded-tr-lg">Wrong Answers</th>
+                                </tr>
+                            </thead>
+                            <tbody id="quiz-history-table-body">
+                                <!-- Quiz history rows will be inserted here by loadQuizHistory() -->
+                            </tbody>
+                        </table>
                     </div>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-6">
-                        Back to Quiz Start
-                    </button>
+
+                    <div id="wrong-answers-history-container" class="space-y-4 mb-6">
+                        <!-- Detailed incorrect answers for selected quiz will be loaded here by toggleHistoryDetails() -->
+                    </div>
+
+                    <div class="flex justify-center gap-4 mt-6">
+                        <button id="clear-history-btn" class="btn-danger">
+                            Clear All History
+                        </button>
+                        <button class="btn-primary">
+                            Back to Quiz Start
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1441,5 +965,723 @@
         <div id="message-box-icon" class="mr-2"></div>
         <span id="message-box-text"></span>
     </div>
+
+    <!-- Custom Confirmation Dialog -->
+    <div id="confirm-box" class="hidden">
+        <p id="confirm-box-text" class="text-lg font-semibold mb-6"></p>
+        <div class="flex justify-center gap-4">
+            <button id="confirm-btn-yes" class="py-2 px-4 bg-red-500 text-white rounded-lg">Yes</button>
+            <button id="confirm-btn-no" class="py-2 px-4 bg-gray-300 text-gray-800 rounded-lg">No</button>
+        </div>
+    </div>
+
+    <script type="module">
+        const questions = {
+            math: [
+                { q: "What is the remainder 'r' in the Division Algorithm a = bq + r ; 0 &le; r which is less than b?", options: ["r &lt; b", "r &gt; b", "r = b", "r &le; 0"], correct: "r &lt; b", point: "Mathematics Point 1", subject: "Mathematics" },
+                { q: "According to the Fundamental Theorem of Arithmetic, how can every composite number be expressed?", options: ["As a sum of its primes", "As a product of its primes", "As a difference of its primes", "As a quotient of its primes"], correct: "As a product of its primes", point: "Mathematics Point 2", subject: "Mathematics" },
+                { q: "If 'p' is a prime and 'p' divides a<sup>2</sup>, what else does 'p' divide?", options: ["a<sup>3</sup>", "2a", "a", "a+p"], correct: "a", point: "Mathematics Point 3", subject: "Mathematics" },
+                { q: "A rational number x = P/q has a terminating decimal expansion if the prime factorization of q is of what form?", options: ["2<sup>n</sup>3<sup>m</sup>", "2<sup>n</sup>5<sup>m</sup>", "3<sup>n</sup>5<sup>m</sup>", "2<sup>n</sup>7<sup>m</sup>"], correct: "2<sup>n</sup>5<sup>m</sup>", point: "Mathematics Point 4", subject: "Mathematics" },
+                { q: "What is the decimal expansion of an irrational number?", options: ["Terminating and repeating", "Non-terminating and repeating", "Terminating and non-repeating", "Non-terminating and non-repeating"], correct: "Non-terminating and non-repeating", point: "Mathematics Point 7", subject: "Mathematics" },
+                { q: "Which of the following is an irrational number?", options: ["1/2", "0.333...", "&radic;4", "&pi;"], correct: "&pi;", point: "Mathematics Point 8", subject: "Mathematics" },
+                { q: "What is log xy base a equal to?", options: ["log<sub>a</sub>x + log<sub>a</sub>y", "log<sub>a</sub>x + log<sub>a</sub>y", "log<sub>a</sub>x - log<sub>a</sub>y", "log<sub>a</sub>(x+y)"], correct: "log<sub>a</sub>x + log<sub>a</sub>y", point: "Mathematics Point 11", subject: "Mathematics" },
+                { q: "What is the value of log 1 base a?", options: ["1", "a", "0", "undefined"], correct: "0", point: "Mathematics Point 15", subject: "Mathematics" },
+                { q: "How is the mean of an ungrouped data calculated?", options: ["Product of observations / No. of observations", "Sum of observations * No. of observations", "Difference of observations / No. of observations", "Sum of observations / No. of observations"], correct: "Sum of observations / No. of observations", point: "Mathematics Point 19", subject: "Mathematics" },
+                { q: "What is the Empirical relation among Mean, Median, and Mode?", options: ["Mode = Mean + Median", "Mode = 2 Median - 3 Mean", "Mode = Median - Mean", "Mode = 3 Median - 2 Mean"], correct: "Mode = 3 Median - 2 Mean", point: "Mathematics Point 30", subject: "Mathematics" },
+                { q: "What is the value of log a base a?", options: ["0", "1", "a", "undefined"], correct: "1", point: "Mathematics Point 16", subject: "Mathematics" },
+                { q: "If the number of observations 'n' is odd, what is the median for ungrouped data?", options: ["(n/2)th observation", "((n+1)/2)th observation", "(n-1)/2th observation", "n/2 + 1th observation"], correct: "((n+1)/2)th observation", point: "Mathematics Point 21 i)", subject: "Mathematics" },
+                { q: "In the step deviation method for grouped data, what does 'h' represent?", options: ["Frequency", "Assumed mean", "Class size", "Cumulative frequency"], correct: "Class size", point: "Mathematics Point 24", subject: "Mathematics" },
+                { q: "How is the direct method mean (x&#x0305;) for grouped data calculated?", options: ["(&Sigma;f<sub>i</sub>) / (&Sigma;f<sub>i</sub>x<sub>i</sub>)", "a + (&Sigma;f<sub>i</sub>d<sub>i</sub>) / (&Sigma;f<sub>i</sub>)", "(&Sigma;f<sub>i</sub>x<sub>i</sub>) / (&Sigma;f<sub>i</sub>)", "a + ((&Sigma;f<sub>i</sub>u<sub>i</sub>) / (&Sigma;f<sub>i</sub>)) * h"], correct: "(&Sigma;f<sub>i</sub>x<sub>i</sub>) / (&Sigma;f<sub>i</sub>)", point: "Mathematics Point 22", subject: "Mathematics" },
+                { q: "What are taken on the X-axis when drawing less than ogives?", options: ["Lower boundaries", "Upper boundaries", "Frequencies", "Class marks"], correct: "Upper boundaries", point: "Mathematics Point 27", subject: "Mathematics" },
+                { q: "What is the property of log (x/y) base a?", options: ["log<sub>a</sub>x + log<sub>a</sub>y", "log<sub>a</sub>x - log<sub>a</sub>y", "log<sub>a</sub>(x&times;y)", "log<sub>a</sub>(x<sup>y</sup>)"], correct: "log<sub>a</sub>x - log<sub>a</sub>y", point: "Mathematics Point 12", subject: "Mathematics" },
+                { q: "What is log (x<sup>m</sup>) base a equivalent to?", options: ["log<sub>a</sub>x + m", "m log<sub>a</sub>x", "log<sub>a</sub>(x/m)", "log<sub>a</sub>x &times; log<sub>a</sub>m"], correct: "m log<sub>a</sub>x", point: "Mathematics Point 13", subject: "Mathematics" },
+                { q: "What does 'a<sup>(log<sub>a</sub>N)</sup>' simplify to?", options: ["a", "N", "log<sub>a</sub>a", "1"], correct: "N", point: "Mathematics Point 14", subject: "Mathematics" },
+                { q: "If 'n' is even, what is the median for ungrouped data?", options: ["((n+1)/2)th observation", "Average of (n/2)th and ((n/2)+1)th observations", "(n/2)th observation", "n-1th observation"], correct: "Average of (n/2)th and ((n/2)+1)th observations", point: "Mathematics Point 21 ii)", subject: "Mathematics" },
+                { q: "For grouped data, what is 'l' in the mode formula?", options: ["Upper limit of modal class", "Lower limit of modal class", "Frequency of modal class", "Class size"], correct: "Lower limit of modal class", point: "Mathematics Point 25", subject: "Mathematics" },
+                { q: "What type of decimal expansion does x = P/q have if the prime factorization of q is NOT of the form 2<sup>n</sup>5<sup>m</sup>?", options: ["Terminating", "Non-terminating and repeating", "Non-terminating and non-repeating", "None of the above"], correct: "Non-terminating and repeating", point: "Mathematics Point 9", subject: "Mathematics" },
+                { q: "What does x&#x0305; (mean) denote in the assumed mean method?", options: ["Actual mean", "Assumed mean", "Deviation", "Frequency"], correct: "Actual mean", point: "Mathematics Point 23", subject: "Mathematics" },
+                { q: "Which of the following is NOT a law of logarithms?", options: ["log<sub>a</sub>(xy) = log<sub>a</sub>x + log<sub>a</sub>y", "log<sub>a</sub>(x/y) = log<sub>a</sub>x - log<sub>a</sub>y", "log<sub>a</sub>(x+y) = log<sub>a</sub>x + log<sub>a</sub>y", "log<sub>a</sub>(x<sup>m</sup>) = m log<sub>a</sub>x"], correct: "log<sub>a</sub>(x+y) = log<sub>a</sub>x + log<sub>a</sub>y", point: "Mathematics Point 11", subject: "Mathematics" },
+                { q: "What is 'f<sub>1</sub>' in the mode formula for grouped data?", options: ["Frequency of class preceding modal class", "Frequency of modal class", "Frequency of class succeeding modal class", "Cumulative frequency"], correct: "Frequency of modal class", point: "Mathematics Point 25", subject: "Mathematics" },
+                { q: "What are taken on the X-axis when drawing greater than ogives?", options: ["Lower boundaries", "Upper boundaries", "Frequencies", "Class marks"], correct: "Lower boundaries", point: "Mathematics Point 28", subject: "Mathematics" },
+                { q: "The median of grouped data can be obtained graphically as the x-coordinate of what point?", options: ["Intersection of X-axis and Y-axis", "Intersection of two ogives", "Midpoint of the histogram", "Peak of the frequency polygon"], correct: "Intersection of two ogives", point: "Mathematics Point 29", subject: "Mathematics" },
+                { q: "In the median formula for grouped data, what does 'n' represent?", options: ["Number of classes", "Total number of observations", "Frequency of median class", "Class size"], correct: "Total number of observations", point: "Mathematics Point 26", subject: "Mathematics" },
+                { q: "What is 'f' in the median formula for grouped data?", options: ["Frequency of class preceding median class", "Frequency of median class", "Frequency of class succeeding median class", "Cumulative frequency"], correct: "Frequency of median class", point: "Mathematics Point 26", subject: "Mathematics" },
+                { q: "A data set having two modes is called what?", options: ["Uni-modal", "Bi-modal", "Multi-modal", "Amodal"], correct: "Bi-modal", point: "Mathematics Point 20", subject: "Mathematics" },
+                { q: "What defines an irrational number?", options: ["A number that can be written as a fraction", "A number with a terminating decimal", "A positive number that is not a perfect square", "A number with a repeating decimal"], correct: "A positive number that is not a perfect square", point: "Mathematics Point 6", subject: "Mathematics" },
+                { q: "What is the product of two consecutive positive integers and their HCF and LCM?", options: ["Product of integers", "Sum of integers", "HCF + LCM", "HCF / LCM"], correct: "Product of integers", point: "Mathematics Point 31", subject: "Mathematics" },
+                { q: "Which type of polynomial has the highest power of the variable as 2?", options: ["Linear", "Cubic", "Quadratic", "Constant"], correct: "Quadratic", point: "Mathematics Point 32", subject: "Mathematics" },
+                { q: "How many zeros does a cubic polynomial have?", options: ["At most one", "At most two", "At most three", "Exactly three"], correct: "At most three", point: "Mathematics Point 33", subject: "Mathematics" },
+                { q: "What is the relationship between the sum of zeros ($\alpha + \beta$) and coefficients (a, b, c) of $ax^2 + bx + c$?", options: ["c/a", "-c/a", "b/a", "-b/a"], correct: "-b/a", point: "Mathematics Point 34", subject: "Mathematics" },
+                { q: "For a linear equation $ax + by + c = 0$, what does the graph represent?", options: ["A curve", "A circle", "A straight line", "A parabola"], correct: "A straight line", point: "Mathematics Point 35", subject: "Mathematics" },
+                { q: "If a pair of linear equations has infinitely many solutions, what is the condition?", options: ["$a_1/a_2 \ne b_1/b_2$", "$a_1/a_2 = b_1/b_2 \ne c_1/c_2$", "$a_1/a_2 = b_1/b_2 = c_1/c_2$", "$a_1b_2 - a_2b_1 = 0$"], correct: "$a_1/a_2 = b_1/b_2 = c_1/c_2$", point: "Mathematics Point 36", subject: "Mathematics" },
+                { q: "What is the formula for the nth term of an AP with first term 'a' and common difference 'd'?", options: ["$a_n = a + nd$", "$a_n = a - (n-1)d$", "$a_n = a + (n-1)d$", "$a_n = a - nd$"], correct: "$a_n = a + (n-1)d$", point: "Mathematics Point 37", subject: "Mathematics" },
+                { q: "What is the sum of the first 'n' terms of an AP?", options: ["$S_n = n/2 [a + (n-1)d]$", "$S_n = n/2 [2a + nd]$", "$S_n = n/2 [2a + (n-1)d]$", "$S_n = n [a + (n-1)d]$"], correct: "$S_n = n/2 [2a + (n-1)d]$", point: "Mathematics Point 38", subject: "Mathematics" },
+                { q: "In a right-angled triangle, what is the relationship between the square of the hypotenuse and the squares of the other two sides?", options: ["Difference", "Sum", "Product", "Quotient"], correct: "Sum", point: "Mathematics Point 39", subject: "Mathematics" },
+                { q: "What is the sum of the angles in any triangle?", options: ["$90^\circ$", "$270^\circ$", "$180^\circ$", "$360^\circ$"], correct: "$180^\circ$", point: "Mathematics Point 40", subject: "Mathematics" }
+            ],
+            physics: [
+                { q: "An image formed by the actual intersection of reflected rays is called what?", options: ["Virtual image", "Real image", "Diminished image", "Enlarged image"], correct: "Real image", point: "Physics Point 1 i)", subject: "Physics" },
+                { q: "When measuring distances for curved mirrors, from where should all distances be measured?", options: ["Focus", "Center of curvature", "Pole", "Optical center"], correct: "Pole", point: "Physics Point 2", subject: "Physics" },
+                { q: "For curved mirrors, what is the relationship between the radius of curvature (R) and the focal length (f)?", options: ["R = f", "R = f/2", "R = 2f", "R = 4f"], correct: "R = 2f", point: "Physics Point 3", subject: "Physics" },
+                { q: "Which type of mirror has its reflecting surface curved inwards?", options: ["Convex mirror", "Plane mirror", "Concave mirror", "Cylindrical mirror"], correct: "Concave mirror", point: "Physics Point 4", subject: "Physics" },
+                { q: "Which type of mirror always forms a virtual image for a real object?", options: ["Concave mirror", "Plane mirror", "Convex mirror", "Parabolic mirror"], correct: "Convex mirror", point: "Physics Point 5", subject: "Physics" },
+                { q: "What is the point called where rays parallel to the principal axis of a concave mirror converge after reflection?", options: ["Center of curvature", "Pole", "Optical center", "Focal point"], correct: "Focal point", point: "Physics Point 6", subject: "Physics" },
+                { q: "In the lens formula, 1/f = 1/v - 1/u, what does 'u' represent?", options: ["Image distance", "Focal length", "Object distance", "Radius of curvature"], correct: "Object distance", point: "Physics Point 13 ii)", subject: "Physics" },
+                { q: "According to lens maker's formula, what are R<sub>1</sub> and R<sub>2</sub>?", options: ["Radii of focus", "Radii of illumination", "Radii of curvature", "Radii of light"], correct: "Radii of curvature", point: "Physics Point 13 iii)", subject: "Physics" },
+                { q: "What remains the same when light changes its wavelength in different media?", options: ["Speed", "Frequency", "Amplitude", "Intensity"], correct: "Frequency", point: "Physics Point 15", subject: "Physics" },
+                { q: "Which type of mirror is used by dentists to see larger images of patients' teeth?", options: ["Convex mirror", "Plane mirror", "Concave mirror", "Cylindrical mirror"], correct: "Concave mirror", point: "Physics Point 9 v)", subject: "Physics" },
+                { q: "What is a double convex lens also known as?", options: ["Biconcave lens", "Plano-concave lens", "Bi-convex lens", "Converging lens"], correct: "Bi-convex lens", point: "Physics Point 10 i)", subject: "Physics" },
+                { q: "What is a double concave lens bounded by?", options: ["Two planar surfaces", "Two spherical surfaces curved outward", "Two spherical surfaces curved inward", "One planar and one curved surface"], correct: "Two spherical surfaces curved inward", point: "Physics Point 10 ii)", subject: "Physics" },
+                { q: "What is the distance between the focal point and pole of a lens called?", options: ["Radius of curvature", "Optical axis", "Focal length", "Principal axis"], correct: "Focal length", point: "Physics Point 11", subject: "Physics" },
+                { q: "Which ray passes undeviated through a lens?", options: ["Ray parallel to principal axis", "Ray passing through focal point", "Ray passing through optic centre", "Ray incident at pole"], correct: "Ray passing through optic centre", point: "Physics Point 12 ii)", subject: "Physics" },
+                { q: "When does a convex lens behave as a diverging lens?", options: ["When kept in a medium with refractive index less than lens", "When kept in a medium with refractive index equal to lens", "When kept in a medium with refractive index greater than lens", "It always behaves as converging"], correct: "When kept in a medium with refractive index greater than lens", point: "Physics Point 14", subject: "Physics" },
+                { q: "What type of image is formed by extended rays of reflection?", options: ["Real image", "Virtual image", "Inverted image", "Diminished image"], correct: "Virtual image", point: "Physics Point 1 ii)", subject: "Physics" },
+                { q: "In sign conventions for curved mirrors, how are heights measured upwards from the principal axis considered?", options: ["Negative", "Zero", "Positive", "Irrelevant"], correct: "Positive", point: "Physics Point 2 ii)", subject: "Physics" },
+                { q: "Which of these is a use of convex mirrors?", options: ["Torch lights", "Vehicle head lights", "Dentist mirrors", "Rear view mirrors in automobiles"], correct: "Rear view mirrors in automobiles", point: "Physics Point 9 i)", subject: "Physics" },
+                { q: "A ray passing parallel to the principal axis of a mirror, after reflection, passes through what point?", options: ["Center of curvature", "Pole", "Focal point", "Optical center"], correct: "Focal point", point: "Physics Point 8 i)", subject: "Physics" },
+                { q: "What does 'm' represent in the mirror magnification formula?", options: ["Mirror distance", "Object distance", "Size of the image / size of the object", "Focal length"], correct: "Size of the image / size of the object", point: "Physics Point 7 ii)", subject: "Physics" },
+                { q: "What is the SI unit of electric current?", options: ["Volt", "Ohm", "Ampere", "Watt"], correct: "Ampere", point: "Physics Point 16", subject: "Physics" },
+                { q: "What is Ohm's Law?", options: ["V = I/R", "R = V/I", "V = IR", "I = VR"], correct: "V = IR", point: "Physics Point 17", subject: "Physics" },
+                { q: "What is the SI unit of electrical resistance?", options: ["Volt", "Ampere", "Ohm", "Joule"], correct: "Ohm", point: "Physics Point 18", subject: "Physics" },
+                { q: "If resistors are connected in series, how is their total resistance calculated?", options: ["By summing their reciprocals", "By adding them directly", "By multiplying them", "By dividing them"], correct: "By adding them directly", point: "Physics Point 19", subject: "Physics" },
+                { q: "If resistors are connected in parallel, how is their total resistance calculated?", options: ["By adding them directly", "By summing their reciprocals", "By multiplying them", "By dividing them"], correct: "By summing their reciprocals", point: "Physics Point 20", subject: "Physics" },
+                { q: "What is the SI unit of power?", options: ["Joule", "Newton", "Watt", "Pascal"], correct: "Watt", point: "Physics Point 21", subject: "Physics" },
+                { q: "What is the formula for electric power?", options: ["P = V/I", "P = I/V", "P = VI", "P = V + I"], correct: "P = VI", point: "Physics Point 22", subject: "Physics" },
+                { q: "What is the SI unit of magnetic field strength?", options: ["Gauss", "Oersted", "Tesla", "Weber"], correct: "Tesla", point: "Physics Point 23", subject: "Physics" },
+                { q: "Which rule is used to find the direction of the force on a current-carrying conductor in a magnetic field?", options: ["Right-Hand Thumb Rule", "Maxwell's Corkscrew Rule", "Fleming's Left-Hand Rule", "Fleming's Right-Hand Rule"], correct: "Fleming's Left-Hand Rule", point: "Physics Point 24", subject: "Physics" },
+                { q: "What phenomenon is described by Faraday's Law of Electromagnetic Induction?", options: ["Light refraction", "Heat transfer", "Sound propagation", "Production of EMF by changing magnetic field"], correct: "Production of EMF by changing magnetic field", point: "Physics Point 25", subject: "Physics" },
+                { q: "What is the SI unit of energy?", options: ["Watt", "Newton", "Joule", "Ampere"], correct: "Joule", point: "Physics Point 26", subject: "Physics" },
+                { q: "What type of lens is used to correct myopia (nearsightedness)?", options: ["Convex lens", "Concave lens", "Cylindrical lens", "Plano-convex lens"], correct: "Concave lens", point: "Physics Point 27", subject: "Physics" },
+                { q: "What type of lens is used to correct hypermetropia (farsightedness)?", options: ["Concave lens", "Convex lens", "Toric lens", "Bifocal lens"], correct: "Convex lens", point: "Physics Point 28", subject: "Physics" },
+                { q: "What is the splitting of white light into its constituent colors called?", options: ["Reflection", "Refraction", "Dispersion", "Diffraction"], correct: "Dispersion", point: "Physics Point 29", subject: "Physics" },
+                { q: "What is the unit of power of a lens?", options: ["Meter", "Centimeter", "Dioptre", "Watt"], correct: "Dioptre", point: "Physics Point 30", subject: "Physics" }
+            ],
+            chemistry: [
+                { q: "What is a chemical equation?", options: ["Graphical representation", "Symbolic representation of chemical change", "Numerical representation", "Artistic representation"], correct: "Symbolic representation of chemical change", point: "Chemistry Point 1", subject: "Chemistry" },
+                { q: "According to which law should a chemical equation always be balanced?", options: ["Law of Definite Proportions", "Law of Multiple Proportions", "Law of Conservation of Mass", "Law of Reciprocal Proportions"], correct: "Law of Conservation of Mass", point: "Chemistry Point 3", subject: "Chemistry" },
+                { q: "What are reactions called in which heat is evolved?", options: ["Endothermic", "Exothermic", "Photosynthetic", "Catalytic"], correct: "Exothermic", point: "Chemistry Point 4", subject: "Chemistry" },
+                { q: "A chemical equation without balancing is known as what?", options: ["Balanced equation", "Primary equation", "Net ionic equation", "Molecular equation"], correct: "Primary equation", point: "Chemistry Point 6", subject: "Chemistry" },
+                { q: "What ions are responsible for the acidic nature of a substance in solution?", options: ["OH<sup>-</sup>", "H<sup>+</sup>", "Na<sup>+</sup>", "Cl<sup>-</sup>"], correct: "H<sup>+</sup>", point: "Chemistry Point 9", subject: "Chemistry" },
+                { q: "What are substances called whose odor changes in acidic or basic medium?", options: ["pH indicators", "Olfactory indicators", "Litmus indicators", "Universal indicators"], correct: "Olfactory indicators", point: "Chemistry Point 10", subject: "Chemistry" },
+                { q: "When an acid reacts with a metal, what are the products?", options: ["Salt + Oxygen", "Salt + Carbon dioxide", "Salt + Hydrogen", "Salt + Water"], correct: "Salt + Hydrogen", point: "Chemistry Point 12", subject: "Chemistry" },
+                { q: "What are the products when a metal carbonate reacts with an acid?", options: ["Salt + Oxygen + Water", "Salt + Carbon dioxide + Water", "Salt + Hydrogen + Water", "Salt + Nitrogen + Water"], correct: "Salt + Carbon dioxide + Water", point: "Chemistry Point 13", subject: "Chemistry" },
+                { q: "What are the products when an acid reacts with a base?", options: ["Salt + Oxygen", "Salt + Carbon dioxide", "Salt + Water", "Salt + Hydrogen"], correct: "Salt + Water", point: "Chemistry Point 14", subject: "Chemistry" },
+                { q: "Why do acidic and basic solutions in water conduct electricity?", options: ["They are good conductors", "They produce ions", "They have high temperature", "They absorb light"], correct: "They produce ions", point: "Chemistry Point 15", subject: "Chemistry" },
+                { q: "Which statement is true about balancing a chemical equation?", options: ["Only symbols of elements can be changed", "Only molecular formulae can be changed", "Only coefficients should be altered", "Both symbols and formulae can be changed"], correct: "Only coefficients should be altered", point: "Chemistry Point 7", subject: "Chemistry" },
+                { q: "Which of the following is an example of an olfactory indicator?", options: ["Litmus paper", "Phenolphthalein", "Vanilla essence", "Methyl orange"], correct: "Vanilla essence", point: "Chemistry Point 11", subject: "Chemistry" },
+                { q: "What is the common term for the reaction between an acid and a base forming salt and water?", options: ["Decomposition", "Combination", "Neutralization", "Displacement"], correct: "Neutralization", point: "Chemistry Point 14", subject: "Chemistry" },
+                { q: "If heat is absorbed in a chemical reaction, what type of reaction is it?", options: ["Exothermic", "Endothermic", "Redox", "Combustion"], correct: "Endothermic", point: "Chemistry Point 4", subject: "Chemistry" },
+                { q: "What ions are responsible for the basic nature of a substance in solution?", options: ["H<sup>+</sup>", "Cl<sup>-</sup>", "OH<sup>-</sup>", "Na<sup>+</sup>"], correct: "OH<sup>-</sup>", point: "Chemistry Point 9", subject: "Chemistry" },
+                { q: "Where is 'Q' (heat energy) shown in an exothermic reaction?", options: ["On reactant side with minus sign", "On product side with minus sign", "On reactant side with plus sign", "On product side with plus sign"], correct: "On product side with plus sign", point: "Chemistry Point 5", subject: "Chemistry" },
+                { q: "What is the purpose of acid-base indicators?", options: ["To speed up reactions", "To detect presence of acids & bases", "To produce heat", "To neutralize solutions"], correct: "To detect presence of acids & bases", point: "Chemistry Point 8", subject: "Chemistry" },
+                { q: "What does a balanced chemical equation explain besides reactants and products?", options: ["Temperature of reaction", "Physical states of substances", "Time taken for reaction", "Color changes"], correct: "Physical states of substances", point: "Chemistry Point 2", subject: "Chemistry" },
+                { q: "When a base reacts with a metal, what are the products?", options: ["Salt + Oxygen", "Salt + Hydrogen", "Salt + Water", "Salt + Carbon Dioxide"], correct: "Salt + Hydrogen", point: "Chemistry Point 12", subject: "Chemistry" },
+                { q: "What are the products when a metal hydrogen carbonate reacts with an acid?", options: ["Salt + Water", "Salt + Carbon dioxide + Water", "Salt + Hydrogen + Water", "Salt + Oxygen"], correct: "Salt + Carbon dioxide + Water", point: "Chemistry Point 13", subject: "Chemistry" },
+                 { q: "What is the general term for a substance that changes the rate of a chemical reaction without being consumed?", options: ["Inhibitor", "Catalyst", "Reactant", "Product"], correct: "Catalyst", point: "Chemistry Point 16", subject: "Chemistry" },
+                { q: "What is the process of losing electrons in a chemical reaction called?", options: ["Reduction", "Oxidation", "Neutralization", "Hydrolysis"], correct: "Oxidation", point: "Chemistry Point 17", subject: "Chemistry" },
+                { q: "What is the process of gaining electrons in a chemical reaction called?", options: ["Oxidation", "Reduction", "Combustion", "Decomposition"], correct: "Reduction", point: "Chemistry Point 18", subject: "Chemistry" },
+                { q: "A reaction where a single compound breaks down into two or more simpler substances is called what?", options: ["Combination", "Displacement", "Double Displacement", "Decomposition"], correct: "Decomposition", point: "Chemistry Point 19", subject: "Chemistry" },
+                { q: "What are the products of burning a hydrocarbon in sufficient oxygen?", options: ["Carbon monoxide and water", "Carbon dioxide and water", "Sulphur dioxide and water", "Nitrogen dioxide and water"], correct: "Carbon dioxide and water", point: "Chemistry Point 20", subject: "Chemistry" },
+                { q: "Which gas is typically released when metals react with acids?", options: ["Oxygen", "Nitrogen", "Hydrogen", "Carbon dioxide"], correct: "Hydrogen", point: "Chemistry Point 21", subject: "Chemistry" },
+                { q: "What is the pH of a neutral solution at 25 degrees Celsius?", options: ["0", "7", "14", "Between 0 and 7"], correct: "7", point: "Chemistry Point 22", subject: "Chemistry" },
+                { q: "What is the chemical name for quicklime?", options: ["Calcium hydroxide", "Calcium carbonate", "Calcium oxide", "Calcium sulfate"], correct: "Calcium oxide", point: "Chemistry Point 23", subject: "Chemistry" },
+                { q: "What is the chemical formula for baking soda?", options: ["$Na_2CO_3$", "$NaOH$", "$NaHCO_3$", "$NaCl$"], correct: "$NaHCO_3$", point: "Chemistry Point 24", subject: "Chemistry" },
+                { q: "Which non-metal is a good conductor of electricity?", options: ["Sulfur", "Phosphorus", "Diamond", "Graphite"], correct: "Graphite", point: "Chemistry Point 25", subject: "Chemistry" },
+                { q: "What type of bond is formed by the sharing of electrons between atoms?", options: ["Ionic bond", "Metallic bond", "Covalent bond", "Hydrogen bond"], correct: "Covalent bond", point: "Chemistry Point 26", subject: "Chemistry" },
+                { q: "What type of bond is formed by the transfer of electrons between atoms?", options: ["Covalent bond", "Ionic bond", "Metallic bond", "Hydrogen bond"], correct: "Ionic bond", point: "Chemistry Point 27", subject: "Chemistry" },
+                { q: "What is the smallest unit of an element that retains its chemical identity?", options: ["Molecule", "Compound", "Mixture", "Atom"], correct: "Atom", point: "Chemistry Point 28", subject: "Chemistry" },
+                { q: "Which group in the periodic table contains the noble gases?", options: ["Group 1", "Group 17", "Group 18", "Group 16"], correct: "Group 18", point: "Chemistry Point 29", subject: "Chemistry" },
+                { q: "What is the atomic number of an element?", options: ["Number of neutrons", "Number of electrons", "Number of protons", "Sum of protons and neutrons"], correct: "Number of protons", point: "Chemistry Point 30", subject: "Chemistry" }
+            ]
+        };
+
+        let currentQuizQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let quizHistory = []; // Stores historical scores for the current session
+
+        function initializeUI() {
+            // No cookie loading on init, history starts fresh each session
+            loadQuizHistory();
+        }
+
+        // Shuffle function (Fisher-Yates)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            }
+            return array;
+        }
+
+        function startQuiz() {
+            // Select 10 random questions from the entire pool of each subject
+            const selectedMathQuestions = shuffleArray([...questions.math]).slice(0, 10);
+            const selectedPhysicsQuestions = shuffleArray([...questions.physics]).slice(0, 10);
+            const selectedChemistryQuestions = shuffleArray([...questions.chemistry]).slice(0, 10);
+
+            currentQuizQuestions = [
+                ...selectedMathQuestions,
+                ...selectedPhysicsQuestions,
+                ...selectedChemistryQuestions
+            ];
+
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            
+            // Hide login/start screen and show quiz questions screen
+            const loginSection = document.getElementById('login-section');
+            const quizMainContent = document.getElementById('quiz-main-content');
+            const quizQuestionsScreen = document.getElementById('quiz-questions-screen');
+            const quizResultsScreen = document.getElementById('quiz-results-screen');
+            const quizHistoryScreen = document.getElementById('quiz-history-screen');
+
+            if (loginSection) loginSection.classList.add('hidden');
+            if (quizMainContent) quizMainContent.classList.remove('hidden');
+            if (quizQuestionsScreen) quizQuestionsScreen.classList.remove('hidden');
+            if (quizResultsScreen) quizResultsScreen.classList.add('hidden');
+            if (quizHistoryScreen) quizHistoryScreen.classList.add('hidden');
+
+            displayQuestion();
+            updateQuizProgress();
+        }
+
+        function displayQuestion() {
+            const quizQuestionsContainer = document.getElementById('quiz-questions');
+            if (!quizQuestionsContainer) return;
+
+            quizQuestionsContainer.innerHTML = ''; // Clear previous question
+
+            // Clear any previous feedback message
+            const feedbackMessage = document.getElementById('feedback-message');
+            if (feedbackMessage) {
+                feedbackMessage.classList.add('hidden');
+                feedbackMessage.textContent = '';
+                feedbackMessage.classList.remove('text-green-600', 'text-red-600');
+            }
+
+            if (currentQuestionIndex >= currentQuizQuestions.length) {
+                submitQuiz();
+                return;
+            }
+
+            const questionData = currentQuizQuestions[currentQuestionIndex];
+            const questionElement = document.createElement('div');
+            questionElement.className = 'quiz-question';
+            questionElement.innerHTML = `
+                <p class="font-semibold text-lg mb-4">Question ${currentQuestionIndex + 1}/${currentQuizQuestions.length}: ${questionData.q}</p>
+                <div id="options-container" class="space-y-3"></div>
+            `;
+            quizQuestionsContainer.appendChild(questionElement);
+
+            const optionsContainer = document.getElementById('options-container');
+            if (!optionsContainer) return;
+
+            // Ensure options are clickable for new question
+            optionsContainer.style.pointerEvents = 'auto';
+
+            shuffleArray(questionData.options).forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option hover:bg-blue-100 transition-colors duration-200';
+                optionElement.innerHTML = option;
+                optionElement.addEventListener('click', function() {
+                    selectOption(this, option);
+                });
+                optionsContainer.appendChild(optionElement);
+
+                // Highlight selected option if already answered
+                if (userAnswers[currentQuestionIndex] === option) {
+                    optionElement.classList.add('selected-option');
+                    optionElement.classList.add('bg-blue-200');
+                }
+            });
+
+            updateQuizProgress();
+        }
+
+        function selectOption(selectedOptionElement, selectedOption) {
+            const parentNode = selectedOptionElement.parentNode;
+            if (!parentNode) return;
+
+            // Remove selection from other options
+            Array.from(parentNode.children).forEach(option => {
+                option.classList.remove('selected-option', 'bg-blue-200');
+            });
+            // Add selection to the clicked option
+            selectedOptionElement.classList.add('selected-option', 'bg-blue-200');
+            userAnswers[currentQuestionIndex] = selectedOption;
+
+            // Disable all options for the current question after a choice is made
+            parentNode.style.pointerEvents = 'none';
+
+            // Display feedback
+            const feedbackMessage = document.getElementById('feedback-message');
+            const questionData = currentQuizQuestions[currentQuestionIndex];
+
+            // Highlight the correct answer in green
+            Array.from(parentNode.children).forEach(option => {
+                if (option.innerHTML === questionData.correct) {
+                    option.classList.add('correct-answer');
+                }
+            });
+
+            if (selectedOption === questionData.correct) {
+                feedbackMessage.textContent = 'Correct! Good job!';
+                feedbackMessage.classList.add('text-green-600');
+                feedbackMessage.classList.remove('text-red-600');
+            } else {
+                selectedOptionElement.classList.add('wrong-answer');
+                feedbackMessage.textContent = `Incorrect! The correct answer was: ${questionData.correct}`;
+                feedbackMessage.classList.add('text-red-600');
+                feedbackMessage.classList.remove('text-green-600');
+            }
+            feedbackMessage.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQuestionIndex] === undefined) {
+                showMessageBox("Please select an option before proceeding.");
+                return;
+            }
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+
+        function updateQuizProgress() {
+            const prevBtn = document.getElementById('quiz-prev-btn');
+            const nextBtn = document.getElementById('quiz-next-btn');
+            const submitBtn = document.getElementById('quiz-submit-btn');
+
+            if (prevBtn) {
+                if (currentQuestionIndex === 0) {
+                    prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    prevBtn.disabled = true;
+                } else {
+                    prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    prevBtn.disabled = false;
+                }
+            }
+
+            if (nextBtn && submitBtn) {
+                if (currentQuestionIndex === currentQuizQuestions.length - 1) {
+                    nextBtn.classList.add('hidden');
+                    submitBtn.classList.remove('hidden');
+                } else {
+                    nextBtn.classList.remove('hidden');
+                    submitBtn.classList.add('hidden');
+                }
+            }
+        }
+
+        function submitQuiz() {
+            if (userAnswers[currentQuestionIndex] === undefined) {
+                showMessageBox("Please select an option for the current question before submitting.");
+                return;
+            }
+
+            let correctCount = 0;
+            const incorrectQuestionsDetails = [];
+            currentQuizQuestions.forEach((qData, index) => {
+                const userAnswer = userAnswers[index];
+                if (userAnswer === qData.correct) {
+                    correctCount++;
+                } else {
+                    incorrectQuestionsDetails.push({
+                        question: qData.q,
+                        userAnswer: userAnswer || "No answer selected",
+                        correctAnswer: qData.correct,
+                        relatedPoint: qData.point,
+                        subject: qData.subject
+                    });
+                }
+            });
+
+            const score = correctCount;
+            const totalQuestions = currentQuizQuestions.length;
+            const percentage = (score / totalQuestions) * 100;
+
+            const quizQuestionsScreen = document.getElementById('quiz-questions-screen');
+            const quizResultsScreen = document.getElementById('quiz-results-screen');
+            const quizScoreElement = document.getElementById('quiz-score');
+
+            if (quizQuestionsScreen) quizQuestionsScreen.classList.add('hidden');
+            if (quizResultsScreen) quizResultsScreen.classList.remove('hidden');
+            if (quizScoreElement) quizScoreElement.innerHTML = `You scored: <span class="font-bold text-blue-600">${score}/${totalQuestions}</span> (${percentage.toFixed(2)}%)`;
+
+            // Add results to in-memory history (no cookie saving)
+            const newResult = {
+                score: score,
+                totalQuestions: totalQuestions,
+                percentage: percentage,
+                timestamp: new Date().toISOString(),
+                incorrectQuestions: incorrectQuestionsDetails
+            };
+            quizHistory.push(newResult);
+
+            showMessageBox("Quiz completed!", 'success');
+            loadQuizHistory(); // Update history display
+        }
+
+        function loadQuizHistory() {
+            // History is now strictly in-memory for the current session
+            // No cookie retrieval
+            
+            // Sort history by timestamp (most recent first)
+            quizHistory.sort((a, b) => {
+                const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+                const timeB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+                return timeB - timeA;
+            });
+
+            const quizHistoryTableBody = document.getElementById('quiz-history-table-body');
+            const wrongAnswersHistoryContainer = document.getElementById('wrong-answers-history-container');
+            const performanceStats = document.getElementById('performance-stats');
+            const noHistoryMessage = document.getElementById('no-history-message');
+
+            // Clear previous content
+            if (quizHistoryTableBody) quizHistoryTableBody.innerHTML = '';
+            if (wrongAnswersHistoryContainer) wrongAnswersHistoryContainer.innerHTML = '';
+            if (performanceStats) performanceStats.textContent = '';
+            if (noHistoryMessage) noHistoryMessage.classList.add('hidden');
+
+            if (quizHistory.length === 0) {
+                if (noHistoryMessage) noHistoryMessage.classList.remove('hidden');
+            } else {
+                if (noHistoryMessage) noHistoryMessage.classList.add('hidden');
+                quizHistory.forEach((entry, index) => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b hover:bg-gray-100 cursor-pointer';
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">${new Date(entry.timestamp).toLocaleString()}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${entry.score} / ${entry.totalQuestions}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${entry.percentage.toFixed(2)}%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${entry.incorrectQuestions ? entry.incorrectQuestions.length : 0}</td>
+                    `;
+                    row.addEventListener('click', () => toggleHistoryDetails(index));
+                    if (quizHistoryTableBody) quizHistoryTableBody.appendChild(row);
+                });
+            }
+
+            const subjectErrorCounts = { "Mathematics": 0, "Physics": 0, "Chemistry": 0 };
+            quizHistory.forEach(data => {
+                if (data.incorrectQuestions) {
+                    data.incorrectQuestions.forEach(item => {
+                        if (item.subject && subjectErrorCounts[item.subject] !== undefined) {
+                            subjectErrorCounts[item.subject]++;
+                        }
+                    });
+                }
+            });
+
+            updatePerformanceGraph();
+            drawSubjectErrorsChart(subjectErrorCounts);
+        }
+
+        function toggleHistoryDetails(index) {
+            const wrongAnswersHistoryContainer = document.getElementById('wrong-answers-history-container');
+            if (!wrongAnswersHistoryContainer) return;
+
+            // Clear previous details
+            wrongAnswersHistoryContainer.innerHTML = '';
+
+            const selectedEntry = quizHistory[index];
+            if (selectedEntry && selectedEntry.incorrectQuestions && selectedEntry.incorrectQuestions.length > 0) {
+                const detailsHtml = document.createElement('div');
+                detailsHtml.className = 'mt-4 p-4 bg-gray-100 rounded-md border border-gray-200';
+                detailsHtml.innerHTML = `<h5 class="font-semibold text-lg mb-2 text-gray-800">Incorrect Answers for Quiz on ${new Date(selectedEntry.timestamp).toLocaleString()}:</h5>`;
+                selectedEntry.incorrectQuestions.forEach(item => {
+                    detailsHtml.innerHTML += `
+                        <div class="bg-white p-3 rounded-md mb-2 border border-gray-200 shadow-sm">
+                            <p class="text-sm"><strong>Q:</strong> ${item.question}</p>
+                            <p class="text-sm text-red-600"><strong>Your Answer:</strong> ${item.userAnswer}</p>
+                            <p class="text-sm text-green-600"><strong>Correct Answer:</strong> ${item.correctAnswer}</p>
+                            <p class="text-xs text-gray-500 mt-1"><em>Related to: ${item.relatedPoint} (${item.subject})</em></p>
+                        </div>
+                    `;
+                });
+                wrongAnswersHistoryContainer.appendChild(detailsHtml);
+            } else {
+                wrongAnswersHistoryContainer.innerHTML = `<p class="mt-4 text-center text-gray-600">No incorrect answers for this quiz session.</p>`;
+            }
+        }
+
+        function clearQuizHistory() {
+            showConfirmationDialog("Are you sure you want to clear all quiz history for this session? This action cannot be undone.", () => {
+                quizHistory = []; // Clear in-memory array
+                loadQuizHistory(); // Refresh display
+                showMessageBox("Quiz history cleared successfully for this session!", 'success');
+            });
+        }
+
+        function updatePerformanceGraph() {
+            const canvas = document.getElementById('performance-chart');
+            if (!canvas) { return; }
+            const ctx = canvas.getContext('2d');
+            
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, rect.width, rect.height);
+
+            if (quizHistory.length === 0) {
+                const performanceStats = document.getElementById('performance-stats');
+                if (performanceStats) performanceStats.textContent = 'No quiz history available.';
+                ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+                return;
+            }
+
+            const totalMaxQuestionsForGraph = 30;
+            const totalScores = quizHistory.reduce((sum, entry) => sum + entry.score, 0);
+            const averageScore = totalScores / quizHistory.length;
+            const performanceStats = document.getElementById('performance-stats');
+            if (performanceStats) performanceStats.innerHTML = `Average Score: <span class="font-bold text-blue-600">${averageScore.toFixed(2)} / ${totalMaxQuestionsForGraph}</span>`;
+
+            const scores = quizHistory.map(entry => entry.score);
+            const maxScore = totalMaxQuestionsForGraph;
+            const minScore = 0;
+            const chartWidth = rect.width - 2 * 30;
+            const chartHeight = rect.height - 2 * 30;
+            const margin = 30;
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#6b7280';
+            ctx.lineWidth = 1;
+            ctx.moveTo(margin, margin);
+            ctx.lineTo(margin, rect.height - margin);
+            ctx.moveTo(margin, rect.height - margin);
+            ctx.lineTo(rect.width - margin, rect.height - margin);
+            ctx.stroke();
+
+            ctx.font = '12px Inter';
+            ctx.fillStyle = '#6b7280';
+            const numYLabels = 5;
+            for (let i = 0; i <= numYLabels; i++) {
+                const y = margin + chartHeight * (1 - i / numYLabels);
+                const scoreLabel = Math.round(minScore + (maxScore - minScore) * (i / numYLabels));
+                ctx.fillText(scoreLabel, margin - 25, y + 5);
+            }
+            ctx.fillText('Score', margin - 25, margin - 10);
+
+            if (scores.length > 0) {
+                const stepX = chartWidth / (scores.length > 1 ? scores.length - 1 : 1);
+                for (let i = 0; i < scores.length; i++) {
+                    const x = scores.length > 1 ? margin + (i / (scores.length - 1)) * chartWidth : margin;
+                    ctx.fillText(`Q${i + 1}`, x - 5, rect.height - margin + 20);
+                }
+            } else if (scores.length === 1) {
+                ctx.fillText(`Q1`, margin, rect.height - margin + 15);
+            }
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#3182ce';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < scores.length; i++) {
+                const x = scores.length > 1 ? margin + (i / (scores.length - 1)) * chartWidth : margin;
+                const y = margin + chartHeight * (1 - (scores[i] - minScore) / (maxScore - minScore));
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                ctx.arc(x, y, 4, 0, Math.PI * 2, false);
+                ctx.fillStyle = '#3182ce';
+                ctx.fill();
+            }
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#f56565';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            const avgY = margin + chartHeight * (1 - (averageScore - minScore) / (maxScore - minScore));
+            ctx.moveTo(margin, avgY);
+            ctx.lineTo(rect.width - margin, avgY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#f56565';
+            ctx.fillText('Avg', rect.width - margin + 5, avgY + 5);
+        }
+
+        function drawSubjectErrorsChart(subjectErrorCounts) {
+            const canvas = document.getElementById('subject-errors-chart');
+            if (!canvas) { return; }
+            const ctx = canvas.getContext('2d');
+
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, rect.width, rect.height);
+
+            const subjects = Object.keys(subjectErrorCounts);
+            const counts = Object.values(subjectErrorCounts);
+            const maxCount = Math.max(...counts, 1);
+
+            const chartWidth = rect.width - 2 * 30;
+            const chartHeight = rect.height - 2 * 30;
+            const margin = 30;
+            const barWidth = (chartWidth / subjects.length) * 0.6;
+            const barSpacing = chartWidth / subjects.length;
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#6b7280';
+            ctx.lineWidth = 1;
+            ctx.moveTo(margin, margin);
+            ctx.lineTo(margin, rect.height - margin);
+            ctx.moveTo(margin, rect.height - margin);
+            ctx.lineTo(rect.width - margin, rect.height - margin);
+            ctx.stroke();
+
+            ctx.font = '12px Inter';
+            ctx.fillStyle = '#6b7280';
+            const numYLabels = Math.min(maxCount, 5);
+            for (let i = 0; i <= numYLabels; i++) {
+                const y = margin + chartHeight * (1 - i / numYLabels);
+                const label = Math.round(maxCount * (i / numYLabels));
+                ctx.fillText(label, margin - 25, y + 5);
+            }
+            ctx.fillText('Errors', margin - 25, margin - 10);
+
+            const colors = ['#60a5fa', '#34d399', '#f87171'];
+            for (let i = 0; i < subjects.length; i++) {
+                const x = margin + i * barSpacing + (barSpacing - barWidth) / 2;
+                const barHeight = (counts[i] / maxCount) * chartHeight;
+                const y = rect.height - margin - barHeight;
+
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.fillRect(x, y, barWidth, barHeight);
+
+                ctx.fillStyle = '#1a202c';
+                ctx.textAlign = 'center';
+                ctx.fillText(subjects[i], x + barWidth / 2, rect.height - margin + 20);
+                if (counts[i] > 0) {
+                    ctx.fillText(counts[i], x + barWidth / 2, y - 5);
+                }
+            }
+        }
+
+        function showMessageBox(message, type = 'info') {
+            const msgBox = document.getElementById('message-box');
+            const msgText = document.getElementById('message-box-text');
+            const msgIcon = document.getElementById('message-box-icon');
+
+            if (!msgBox || !msgText || !msgIcon) { return; }
+
+            msgText.textContent = message;
+            msgBox.className = 'fixed bottom-4 right-4 p-4 rounded-lg shadow-lg flex items-center transition-transform duration-300 ease-out z-50';
+
+            msgBox.classList.remove('bg-green-100', 'border-green-400', 'text-green-700', 'bg-blue-100', 'border-blue-400', 'text-blue-700', 'bg-red-100', 'border-red-400', 'text-red-700');
+            msgIcon.innerHTML = '';
+
+            if (type === 'success') {
+                msgBox.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
+                msgIcon.innerHTML = '<svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+            } else if (type === 'error') {
+                msgBox.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
+                msgIcon.innerHTML = '<svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+            } else {
+                msgBox.classList.add('bg-blue-100', 'border-blue-400', 'text-blue-700');
+                msgIcon.innerHTML = '<svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+            }
+            
+            msgBox.style.transform = 'translateX(0)';
+            setTimeout(() => {
+                msgBox.style.transform = 'translateX(calc(100% + 1rem))';
+            }, 5000);
+        }
+
+        function showConfirmationDialog(message, onConfirm) {
+            const confirmBox = document.getElementById('confirm-box');
+            const confirmText = document.getElementById('confirm-box-text');
+            const confirmBtnYes = document.getElementById('confirm-btn-yes');
+            const confirmBtnNo = document.getElementById('confirm-btn-no');
+
+            if (!confirmBox || !confirmText || !confirmBtnYes || !confirmBtnNo) {
+                // Fallback to basic alert if dialog elements are missing.
+                if (window.confirm(message)) {
+                    onConfirm();
+                }
+                return;
+            }
+
+            confirmText.textContent = message;
+            confirmBox.classList.remove('hidden');
+
+            const handleYes = () => {
+                confirmBox.classList.add('hidden');
+                onConfirm();
+                confirmBtnYes.removeEventListener('click', handleYes);
+                confirmBtnNo.removeEventListener('click', handleNo);
+            };
+
+            const handleNo = () => {
+                confirmBox.classList.add('hidden');
+                confirmBtnYes.removeEventListener('click', handleYes);
+                confirmBtnNo.removeEventListener('click', handleNo);
+            };
+
+            confirmBtnYes.addEventListener('click', handleYes);
+            confirmBtnNo.addEventListener('click', handleNo);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('start-quiz-btn').addEventListener('click', () => {
+                document.getElementById('quiz-overlay').classList.remove('hidden');
+                document.getElementById('login-section').classList.remove('hidden');
+                document.getElementById('quiz-main-content').classList.add('hidden');
+            });
+
+            document.getElementById('close-quiz-btn').addEventListener('click', () => {
+                document.getElementById('quiz-overlay').classList.add('hidden');
+            });
+
+            document.getElementById('quiz-start-button').addEventListener('click', startQuiz);
+            document.getElementById('quiz-next-btn').addEventListener('click', nextQuestion);
+            document.getElementById('quiz-prev-btn').addEventListener('click', prevQuestion);
+            document.getElementById('quiz-submit-btn').addEventListener('click', submitQuiz);
+
+            document.querySelector('#quiz-results-screen button:first-of-type').addEventListener('click', startQuiz);
+            document.querySelector('#quiz-results-screen button:last-of-type').addEventListener('click', () => {
+                document.getElementById('quiz-history-screen').classList.remove('hidden');
+                document.getElementById('quiz-results-screen').classList.add('hidden');
+                loadQuizHistory();
+            });
+
+            document.querySelector('#quiz-history-screen .flex button:last-of-type').addEventListener('click', () => {
+                document.getElementById('login-section').classList.remove('hidden');
+                document.getElementById('quiz-main-content').classList.add('hidden');
+            });
+
+            document.getElementById('view-history-btn').addEventListener('click', () => {
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('quiz-main-content').classList.remove('hidden');
+                document.getElementById('quiz-history-screen').classList.remove('hidden');
+                document.getElementById('quiz-questions-screen').classList.add('hidden');
+                document.getElementById('quiz-results-screen').classList.add('hidden');
+                loadQuizHistory();
+            });
+
+            document.getElementById('clear-history-btn').addEventListener('click', clearQuizHistory);
+
+            window.addEventListener('resize', () => {
+                if (!document.getElementById('quiz-history-screen').classList.contains('hidden')) {
+                    loadQuizHistory();
+                }
+            });
+
+            initializeUI();
+        });
+    </script>
 </body>
 </html>
