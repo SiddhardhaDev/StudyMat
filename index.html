@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Study Material</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif; /* Modern sans-serif font for body */
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%); /* Soft gradient background */
+            color: #4a5568; /* Slightly darker text for better contrast */
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1024px;
+            background-color: #ffffff; /* Crisp white content area */
+            padding: 2.5rem; /* Increased padding */
+            border-radius: 1.5rem; /* More rounded corners */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Deeper shadow */
+            margin-bottom: 2rem; /* Space below container */
+        }
+        h1 {
+            font-family: 'Poppins', sans-serif; /* Poppins for headings for modern feel */
+            font-weight: 800;
+            color: #2c5282; /* Deep blue for main title */
+            letter-spacing: -0.03em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: #3182ce; /* Bright blue for section titles */
+            letter-spacing: -0.02em;
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 2.5rem; /* More space below section titles */
+        }
+        h2::after { /* Underline effect for section titles */
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 80px; /* Short, bold underline */
+            height: 4px;
+            background-color: #4299e1; /* Matching blue */
+            border-radius: 2px;
+        }
+        ol {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 1.25rem; /* More space between main points */
+            display: flex;
+            align-items: flex-start;
+            border-bottom: 1px dashed #e2e8f0; /* Subtle dashed separator */
+            padding-bottom: 1.25rem;
+        }
+        li:last-child {
+            border-bottom: none; /* No border for the last item */
+        }
+        li > span.list-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: #2b6cb0; /* Stronger blue for numbers */
+            margin-right: 1rem; /* More space */
+            min-width: 2rem; /* Wider for alignment */
+            text-align: right;
+            font-size: 1.125rem; /* Larger numbers */
+            line-height: 1.5; /* Align with text */
+        }
+        li ol, li ul { /* Nested lists */
+            margin-top: 0.75rem; /* Increased margin */
+            margin-bottom: 0.75rem;
+            padding-left: 1.75rem; /* More indentation */
+            list-style-type: none; /* No default bullets */
+            border-left: 3px solid #ebf8ff; /* Subtle border for sub-sections */
+            padding-left: 1.5rem;
+        }
+        li ul li {
+            font-size: 0.9em; /* Slightly smaller for sub-points */
+            margin-bottom: 0.5rem; /* Space between sub-points */
+            color: #6b7280; /* Lighter color for sub-points */
+            border-bottom: none; /* No dashed line for sub-points */
+            padding-bottom: 0;
+        }
+        /* Specific styling for mathematical and chemical symbols */
+        sup {
+            vertical-align: super;
+            font-size: 0.7em;
+        }
+        sub {
+            vertical-align: sub;
+            font-size: 0.7em;
+        }
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #cbd5e0;
+            color: #718096;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem;
+                border-radius: 1rem;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            li {
+                margin-bottom: 1rem;
+                padding-bottom: 1rem;
+            }
+            li > span.list-number {
+                min-width: 1.25rem;
+                font-size: 1rem;
+                margin-right: 0.5rem;
+            }
+            li ul, li ol {
+                padding-left: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div class="container mx-auto bg-white p-6 sm:p-12 rounded-xl shadow-2xl">
+        <h1 class="text-3xl sm:text-5xl text-center mb-10 pb-4">Comprehensive Study Material</h1>
+
+        <section class="mb-16">
+            <h2 class="text-2xl sm:text-4xl">Mathematics</h2>
+            <ol>
+                <li>
+                    <span class="list-number">1.</span>
+                    <b>Division Algorithm:</b> Given positive integers 'a' and 'b', there exists a unique pair of whole numbers 'q' and 'r' satisfying a = bq + r ; 0 &le; r which is less than b.
+                </li>
+                <li>
+                    <span class="list-number">2.</span>
+                    <b>The Fundamental Theorem of Arithmetic:</b> Every composite number can be expressed (factorized) as a product of its primes, and this factorization is unique, apart from the order in which the prime factors occurs.
+                </li>
+                <li>
+                    <span class="list-number">3.</span>
+                    If 'p' is a prime and 'p' divides a<sup>2</sup>, (where 'a' is a positive integer), then p divides a.
+                </li>
+                <li>
+                    <span class="list-number">4.</span>
+                    Let x be a rational number whose decimal expansion terminates. Then x can be expressed in the form of P/q, where p and q are coprime and the prime factorization of q is of the form 2<sup>n</sup>5<sup>m</sup>, where n and m are non-negative integers.
+                </li>
+                <li>
+                    <span class="list-number">5.</span>
+                    Let x = P/q be a rational number, such that the prime factorization of q is of the form 2<sup>n</sup>5<sup>m</sup>, where n and m are non-negative integers. Then x has a decimal expansion which terminates.
+                </li>
+                <li>
+                    <span class="list-number">6.</span>
+                    <b>Irrational number:</b> Let 'n' be any positive number which is not a perfect square then &radic;n is called an Irrational number.
+                </li>
+                <li>
+                    <span class="list-number">7.</span>
+                    An irrational number is neither terminating nor recurring decimal.
+                </li>
+                <li>
+                    <span class="list-number">8.</span>
+                    &pi; is an irrational number.
+                </li>
+                <li>
+                    <span class="list-number">9.</span>
+                    Let x = P/q be a rational number, such that the prime factorization of q is not of the form 2<sup>n</sup>5<sup>m</sup>, where n and m are non-negative integers. Then x has a decimal expansion which is non-terminating and repeating (recurring).
+                </li>
+                <li>
+                    <span class="list-number">10.</span>
+                    We define log base a of x = n, if a<sup>n</sup> = x, where a and x are positive numbers and a is &ne; 1, n is an element of Real numbers.
+                </li>
+                <li>
+                    <span class="list-number">11.</span>
+                    <b>Laws of logarithms:</b> If a, x and y are positive real numbers and a is &ne; 1, then log xy base a = log x base a + log y base a.
+                </li>
+                <li>
+                    <span class="list-number">12.</span>
+                    log (x/y) base a = log x base a - log y base a.
+                </li>
+                <li>
+                    <span class="list-number">13.</span>
+                    log (x<sup>m</sup>) base a = m log x base a.
+                </li>
+                <li>
+                    <span class="list-number">14.</span>
+                    a<sup>(log N base a)</sup> = N.
+                </li>
+                <li>
+                    <span class="list-number">15.</span>
+                    log 1 base a = 0.
+                </li>
+                <li>
+                    <span class="list-number">16.</span>
+                    log a base a = 1.
+                </li>
+                <li>
+                    <span class="list-number">17.</span>
+                    (log (a<sup>m</sup>) base b) / (log (a<sup>n</sup>) base b) = (m/n) log a base b.
+                </li>
+                <li>
+                    <span class="list-number">18.</span>
+                    log x base y = (log x) / (log y) (or) 1 / (log y base x).
+                </li>
+                <li>
+                    <span class="list-number">19.</span>
+                    <b>The arithmetic mean of an ungrouped data:</b> Mean (x&#773;) = (Sum of all observations) / (No. of observations) = (&Sigma; x<sub>i</sub>) / n.
+                </li>
+                <li>
+                    <span class="list-number">20.</span>
+                    <b>Mode of ungrouped data:</b> If an observation occur more frequently in the data or an observation with the highest frequency is called the mode of the data. It is denoted by Z. Data having unique mode is called uni-modal data and the data having two modes is called bi-modal data.
+                </li>
+                <li>
+                    <span class="list-number">21.</span>
+                    <b>Median for ungrouped data:</b> The given data has to arrange in order of increasing or decreasing magnitude.
+                    <ul>
+                        <li>i) If the number of observations are 'n', and 'n' is odd then the median will be the ((n+1)/2)th observation of the data.</li>
+                        <li>ii) If the number of observations are 'n', and 'n' is even then the median will be the average of (n/2)th and ((n/2)+1)th observations of the data.</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="list-number">22.</span>
+                    <b>The mean for grouped data is calculated by:</b> The direct method: x&#773; = (&Sigma; f<sub>i</sub> x<sub>i</sub>) / (&Sigma; f<sub>i</sub>).
+                </li>
+                <li>
+                    <span class="list-number">23.</span>
+                    The assumed mean method: x&#773; = a + (&Sigma; f<sub>i</sub> d<sub>i</sub>) / (&Sigma; f<sub>i</sub>).
+                </li>
+                <li>
+                    <span class="list-number">24.</span>
+                    The step deviation method: x&#773; = a + (( &Sigma; f<sub>i</sub> u<sub>i</sub>) / (&Sigma; f<sub>i</sub>)) * h.
+                </li>
+                <li>
+                    <span class="list-number">25.</span>
+                    <b>The mode for grouped data</b> can be found by using the formula: Mode = l + ((f1 - f0) / (2f1 - f0 - f2)) * h, where symbols have their usual meaning.
+                </li>
+                <li>
+                    <span class="list-number">26.</span>
+                    <b>The median for grouped data</b> is formed by using the formula: Median = l + (((n/2) - cf) / f) * h, where symbols have their usual meanings. Note: In order to find median, class intervals should be continuous.
+                </li>
+                <li>
+                    <span class="list-number">27.</span>
+                    While drawing less than ogives, upper boundaries are taken on X-axis and cumulative frequencies are taken on Y-axis.
+                </li>
+                <li>
+                    <span class="list-number">28.</span>
+                    While drawing greater than ogives, lower boundaries are taken on X-axis and cumulative frequencies are taken on Y-axis.
+                </li>
+                <li>
+                    <span class="list-number">29.</span>
+                    The median of grouped data can be obtained graphically as the x-coordinate of the point of intersection of the two ogives for this data.
+                </li>
+                <li>
+                    <span class="list-number">30.</span>
+                    <b>Empirical relation among Mean, Median and Mode is:</b> Mode = 3 Median - 2 Mean.
+                </li>
+            </ol>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-2xl sm:text-4xl">Physics</h2>
+            <ol>
+                <li>
+                    <span class="list-number">1.</span>
+                    <ul>
+                        <li>i) A lens may have two spherical surfaces bulging outwards. Such lens is called Double convex lens (or) bi-convex lens.</li>
+                        <li>ii) A double concave lens (or) biconcave lens is bounded by two spherical surfaces curved inward.</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="list-number">2.</span>
+                    The distance between the focal point and pole is called focal length of lens denoted by 'f'.
+                </li>
+                <li>
+                    <span class="list-number">3.</span>
+                    <ul>
+                        <li>i) Any ray passing through the principal axis is undeviated.</li>
+                        <li>ii) Any ray passing through at the optic centre is also undeviated.</li>
+                        <li>iii) The rays passing parallel to the principal axis converge at focus or seems to diverge from the focus.</li>
+                        <li>iv) The ray passing through focus will take a path parallel to principal axis after refraction.</li>
+                        <li>v) When parallel rays fall on a lens making certain angle with principle axis, the rays converge at a point or appear to diverge from a point lying on a focal plane.</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="list-number">4.</span>
+                    <ul>
+                        <li>i) The formula used when a light ray enters a medium with refractive index n<sub>1</sub> from a medium with refractive index n<sub>2</sub> at curved interface with a radius of curvature R is (n<sub>2</sub>/v) - (n<sub>1</sub>/u) = (n<sub>2</sub> - n<sub>1</sub>)/R.</li>
+                        <li>ii) Lens formula is (1/f) = (1/v) - (1/u). Where, f is the focal length of lens, u is the object distance and v is the image distance.</li>
+                        <li>iii) Lens maker's formula is (1/f) = (n-1) * ((1/R<sub>1</sub>) - (1/R<sub>2</sub>)). Where, R<sub>1</sub> and R<sub>2</sub> are radii of curvature of first and second curved surfaces, n is the refractive index and f is the focal length.</li>
+                        <li>iv) The Relation between speed of wave (V), wave length (&lambda;) and frequency (&nu;) is V = &lambda; * &nu;.</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="list-number">5.</span>
+                    The convex lens behaves as a converging lens if it is kept in a medium with refractive index less than the refractive index of the lens and it behaves like a diverging lens when kept in a medium with refractive index greater than that of the lens.
+                </li>
+                <li>
+                    <span class="list-number">6.</span>
+                    The frequency of the light remains same while its wave length changes.
+                </li>
+                <li>
+                    <span class="list-number">7.</span>
+                    <ul>
+                        <li>i) The image formed by actual intersection of reflected rays is called real image. This can be caught on screen.</li>
+                        <li>ii) The image formed by extended rays of reflection is called virtual image. It cannot be caught on screen.</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="list-number">8.</span>
+                    All distances should be measured from pole.
+                    <ul>
+                        <li>i) The distance measured in the direction of incident ray to be taken as positive and those measured in the direction opposite to incident ray to be taken as negative.</li>
+                        <li>ii) Height of object (h<sub>o</sub>) and height of Image (h<sub>i</sub>) are positive if measured upwards from the principal axis and negative if measured downward.</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="list-number">9.</span>
+                    For curved mirrors the radius of curvature will be twice the focal length, R = 2f.
+                </li>
+                <li>
+                    <span class="list-number">10.</span>
+                    <b>Concave mirror:</b> A spherical mirror, whose reflecting surface is curved inwards, that is, faces towards the centre of the sphere, is called a concave mirror.
+                </li>
+            </ol>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-2xl sm:text-4xl">Chemistry</h2>
+            <ol>
+                <li>
+                    <span class="list-number">1.</span>
+                    A chemical equation is the symbolic representation of a Chemical Change or Chemical Reaction.
+                </li>
+                <li>
+                    <span class="list-number">2.</span>
+                    A balanced chemical equation explains about Reactants, Products and their Physical States during the reaction.
+                </li>
+                <li>
+                    <span class="list-number">3.</span>
+                    A chemical equation should always be balanced according to the Law of Conservation of Mass.
+                </li>
+                <li>
+                    <span class="list-number">4.</span>
+                    The chemical reaction in which heat is absorbed are called Endothermic Reactions and in which heat is evolved are Exothermic Reactions.
+                </li>
+                <li>
+                    <span class="list-number">5.</span>
+                    "Q" is heat energy which is shown with (+) plus sign on product side for exothermic reaction and (-) minus sign on product side for endothermic reactions.
+                </li>
+                <li>
+                    <span class="list-number">6.</span>
+                    A chemical equation containing simply symbols of elements and molecular formulae of the substance without balancing is known as Primary (or) skeleton equation.
+                </li>
+                <li>
+                    <span class="list-number">7.</span>
+                    The symbols of elements and formulae of the compounds should not be changed but only their coefficient should be altered while balancing the chemical equation.
+                </li>
+                <li>
+                    <span class="list-number">8.</span>
+                    Acid - base indicators are dye (or) mixtures of dyes which are used to detect the presence of acids & bases.
+                </li>
+                <li>
+                    <span class="list-number">9.</span>
+                    Acidic nature of a substance is due to the formation of H<sup>+</sup> ions in solution. Formation of OH<sup>-</sup> (aq) ions in solution is responsible for the basic nature of a substance.
+                </li>
+                <li>
+                    <span class="list-number">10.</span>
+                    The substances whose odour changes in acidic (or) basic medium are called olfactory indicators.
+                </li>
+                <li>
+                    <span class="list-number">11.</span>
+                    Onion, vanilla essence and clove oils are examples for olfactory indicators.
+                </li>
+                <li>
+                    <span class="list-number">12.</span>
+                    When an acid reacts with metal gives corresponding salt and Hydrogen
+                    <ul>
+                        <li>Eg: Acid + Metal &rarr; Salt + Hydrogen</li>
+                        <li>Zn (s) + 2HCl (aq) &rarr; ZnCl<sub>2</sub> (aq) + H<sub>2</sub> (g) &uarr;</li>
+                    </ul>
+                    When a base reacts with metal gives corresponding salt and Hydrogen
+                    <ul>
+                        <li>Eg: Base + Metal &rarr; Salt + Hydrogen</li>
+                        <li>2NaOH (aq) + Zn (s) &rarr; Na<sub>2</sub>ZnO<sub>2</sub> (aq) + H<sub>2</sub> (g) &uarr;</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="list-number">13.</span>
+                    When a base reacts with a metal carbonate (or) metal hydrogen carbonate gives the corresponding salt, Carbon dioxide and water.
+                    <ul>
+                        <li>Eg : Metal Carbonate + Acid &rarr; Salt + Carbon dioxide + Water</li>
+                        <li>Na<sub>2</sub>CO<sub>3</sub> + 2HCl &rarr; 2NaCl + CO<sub>2</sub> + H<sub>2</sub>O</li>
+                    </ul>
+                    Metal Hydrogen Carbonate + Acid &rarr; Salt + Carbon dioxide + Water
+                    <ul>
+                        <li>NaHCO<sub>3</sub> + HCl &rarr; NaCl + CO<sub>2</sub> + H<sub>2</sub>O</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="list-number">14.</span>
+                    When an acid reacts with base form salt and water
+                    <ul>
+                        <li>Acid + Base &rarr; Salt + Water</li>
+                        <li>HCl + NaOH &rarr; NaCl + H<sub>2</sub>O</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="list-number">15.</span>
+                    Acidic and basic solutions in water conduct electricity because they produce Hydrogen ions (H<sup>+</sup>) and Hydroxy ions (OH<sup>-</sup>) respectively.
+                </li>
+            </ol>
+        </section>
+
+        <footer>
+            Narayana Group of Schools &copy; 2025
+        </footer>
+    </div>
+</body>
+</html>
