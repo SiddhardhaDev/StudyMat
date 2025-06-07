@@ -51,17 +51,16 @@
             border-radius: 1px;
         }
         
-        /* --- List Styling Fix --- */
+        /* --- List Styling Fixes for Gaps and Line Breaks --- */
         ol {
             list-style-type: decimal; /* Use default decimal numbering */
             padding-left: 1.5rem; /* Default indentation for numbers */
             margin-left: 0; /* Ensure no extra margin */
         }
         li {
-            margin-bottom: 1.5rem; /* More consistent spacing between list items */
+            margin-bottom: 1.2rem; /* Consistent spacing between list items, reduced slightly */
             line-height: 1.6;
-            padding-bottom: 0.5rem; /* Small padding at bottom of each list item */
-            /* Removed dashed border for a cleaner look */
+            /* Removed padding-bottom and border-bottom to eliminate gaps and forced breaks */
         }
         
         /* Sub-points styling (i, ii, iii, etc.) */
@@ -78,7 +77,7 @@
             font-size: 0.95em; /* Slightly smaller for sub-points */
             margin-bottom: 0.4rem; /* Adjusted space between sub-points */
             line-height: 1.5;
-            border-bottom: none; /* No border for sub-points */
+            border-bottom: none; /* Ensure no borders on sub-points */
             padding-bottom: 0;
         }
 
@@ -113,8 +112,7 @@
                 font-size: 2rem;
             }
             li {
-                margin-bottom: 1rem;
-                padding-bottom: 0.5rem;
+                margin-bottom: 0.8rem; /* Adjusted for smaller screens */
             }
             ol {
                 padding-left: 1rem;
